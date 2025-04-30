@@ -1,0 +1,29 @@
+{
+  "muxtoriyatApp": {
+    "file": {
+      "home": {
+        "title": "Files",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Янги File қўшиш",
+        "createOrEditLabel": "Fileни таҳрирлаш",
+        "notFound": "No Files found"
+      },
+      "created": "File {{ param }} билан қўшилди.",
+      "updated": "{{ param }}- File сақланди.",
+      "deleted": "{{ param }}- File ўчирилди.",
+      "delete": {
+        "question": "{{ id }}- Fileни ўчирмоқчимисиз? "
+      },
+      "detail": {
+        "title": "File"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "url": "Url",
+      "content": "Content",
+      "fileType": "File Type",
+      "source": "Source"
+    }
+  }
+}

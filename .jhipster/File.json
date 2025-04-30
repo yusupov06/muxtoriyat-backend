@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20250430053340"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "Blob"
+    },
+    {
+      "fieldName": "fileType",
+      "fieldType": "FileType",
+      "fieldValues": "IMAGE,VIDEO,PDF"
+    }
+  ],
+  "name": "File",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "source",
+      "relationshipName": "source",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

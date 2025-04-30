@@ -1,0 +1,54 @@
+
+entity Category {
+  name String,
+  description String,
+  order Integer
+}
+
+entity Article {
+  name String required unique,
+  title String,
+  description String,
+  content TextBlob,
+  image ImageBlob
+}
+
+entity Source {
+  name String
+  description String
+}
+
+entity Reaction {
+  deviceId String
+  reactionType ReactionType
+}
+
+enum ReactionType {
+  LIKE, DISLIKE
+}
+
+entity File {
+  name String unique required
+  description String
+  url String
+  content Blob
+  fileType FileType
+}
+
+enum FileType {
+  IMAGE, VIDEO, PDF
+}
+
+relationship ManyToOne {
+  Article{category} to Category
+  Source{category} to Category
+  File{source} to Source
+  Category{parent} to Category
+  Reaction{article} to Article
+}
+
+paginate Category, Article, Source, File with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl

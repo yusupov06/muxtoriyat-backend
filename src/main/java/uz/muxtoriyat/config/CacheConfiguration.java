@@ -41,6 +41,11 @@ public class CacheConfiguration {
             createCache(cm, uz.muxtoriyat.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, uz.muxtoriyat.repository.UserRepository.USERS_BY_EMAIL_CACHE);
             createCache(cm, uz.muxtoriyat.domain.Authority.class.getName());
+            createCache(cm, uz.muxtoriyat.domain.Article.class.getName());
+            createCache(cm, uz.muxtoriyat.domain.Category.class.getName());
+            createCache(cm, uz.muxtoriyat.domain.File.class.getName());
+            createCache(cm, uz.muxtoriyat.domain.Reaction.class.getName());
+            createCache(cm, uz.muxtoriyat.domain.Source.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,109 @@
+<div>
+  <h2 id="page-heading" data-cy="ReactionHeading">
+    <span jhiTranslate="muxtoriyatApp.reaction.home.title">Reactions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="muxtoriyatApp.reaction.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-reaction"
+        [routerLink]="['/reaction/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="muxtoriyatApp.reaction.home.createLabel">Create a new Reaction</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (reactions?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="muxtoriyatApp.reaction.home.notFound">No Reactions found</span>
+    </div>
+  }
+
+  @if (reactions && reactions.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deviceId">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.reaction.deviceId">Device Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="reactionType">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.reaction.reactionType">Reaction Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="article.id">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.reaction.article">Article</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (reaction of reactions; track trackId(reaction)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/reaction', reaction.id, 'view']">{{ reaction.id }}</a>
+              </td>
+              <td>{{ reaction.deviceId }}</td>
+              <td [jhiTranslate]="'muxtoriyatApp.ReactionType.' + (reaction.reactionType ?? 'null')">
+                {{ { null: '', LIKE: 'LIKE', DISLIKE: 'DISLIKE' }[reaction.reactionType ?? 'null'] }}
+              </td>
+              <td>
+                @if (reaction.article) {
+                  <div>
+                    <a [routerLink]="['/article', reaction.article.id, 'view']">{{ reaction.article.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/reaction', reaction.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/reaction', reaction.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(reaction)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

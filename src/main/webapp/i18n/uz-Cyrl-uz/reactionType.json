@@ -1,0 +1,9 @@
+{
+  "muxtoriyatApp": {
+    "ReactionType": {
+      "null": "",
+      "LIKE": "LIKE",
+      "DISLIKE": "DISLIKE"
+    }
+  }
+}

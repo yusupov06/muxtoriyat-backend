@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (reaction(); as reactionRef) {
+      <div>
+        <h2 data-cy="reactionDetailsHeading"><span jhiTranslate="muxtoriyatApp.reaction.detail.title">Reaction</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ reactionRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.reaction.deviceId">Device Id</span></dt>
+          <dd>
+            <span>{{ reactionRef.deviceId }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.reaction.reactionType">Reaction Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'muxtoriyatApp.ReactionType.' + (reactionRef.reactionType ?? 'null')">{{
+              { null: '', LIKE: 'LIKE', DISLIKE: 'DISLIKE' }[reactionRef.reactionType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.reaction.article">Article</span></dt>
+          <dd>
+            @if (reaction()!.article) {
+              <div>
+                <a [routerLink]="['/article', reaction()!.article?.id, 'view']">{{ reactionRef.article?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/reaction', reactionRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

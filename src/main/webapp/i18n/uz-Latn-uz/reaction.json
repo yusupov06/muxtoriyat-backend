@@ -1,0 +1,26 @@
+{
+  "muxtoriyatApp": {
+    "reaction": {
+      "home": {
+        "title": "Reactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Yangi Reaction qo`shish",
+        "createOrEditLabel": "Reactionni tahrirlash",
+        "notFound": "No Reactions found"
+      },
+      "created": "Reaction {{ param }} bilan qo`shildi",
+      "updated": "{{ param }}- Reaction saqlandi",
+      "deleted": "{{ param }}- Reaction o`chirildi",
+      "delete": {
+        "question": "{{ id }}- Reactionni o`chirmoqchimisiz? "
+      },
+      "detail": {
+        "title": "Reaction"
+      },
+      "id": "ID",
+      "deviceId": "Device Id",
+      "reactionType": "Reaction Type",
+      "article": "Article"
+    }
+  }
+}

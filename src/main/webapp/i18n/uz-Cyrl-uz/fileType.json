@@ -1,0 +1,10 @@
+{
+  "muxtoriyatApp": {
+    "FileType": {
+      "null": "",
+      "IMAGE": "IMAGE",
+      "VIDEO": "VIDEO",
+      "PDF": "PDF"
+    }
+  }
+}

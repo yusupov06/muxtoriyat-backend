@@ -8,7 +8,12 @@
       "entities": {
         "main": "Ma`lumotlar",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "adminAuthority": "Authority"
+        "adminAuthority": "Authority",
+        "article": "Article",
+        "category": "Category",
+        "file": "File",
+        "reaction": "Reaction",
+        "source": "Source"
       },
       "account": {
         "main": "Profil",

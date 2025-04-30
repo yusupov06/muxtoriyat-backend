@@ -1,0 +1,26 @@
+{
+  "muxtoriyatApp": {
+    "source": {
+      "home": {
+        "title": "Sources",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Yangi Source qo`shish",
+        "createOrEditLabel": "Sourceni tahrirlash",
+        "notFound": "No Sources found"
+      },
+      "created": "Source {{ param }} bilan qo`shildi",
+      "updated": "{{ param }}- Source saqlandi",
+      "deleted": "{{ param }}- Source o`chirildi",
+      "delete": {
+        "question": "{{ id }}- Sourceni o`chirmoqchimisiz? "
+      },
+      "detail": {
+        "title": "Source"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "category": "Category"
+    }
+  }
+}

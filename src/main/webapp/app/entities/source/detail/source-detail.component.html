@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (source(); as sourceRef) {
+      <div>
+        <h2 data-cy="sourceDetailsHeading"><span jhiTranslate="muxtoriyatApp.source.detail.title">Source</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ sourceRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.name">Name</span></dt>
+          <dd>
+            <span>{{ sourceRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.description">Description</span></dt>
+          <dd>
+            <span>{{ sourceRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.category">Category</span></dt>
+          <dd>
+            @if (source()!.category) {
+              <div>
+                <a [routerLink]="['/category', source()!.category?.id, 'view']">{{ sourceRef.category?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/source', sourceRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

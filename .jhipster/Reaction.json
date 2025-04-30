@@ -1,0 +1,29 @@
+{
+  "annotations": {
+    "changelogDate": "20250430053341"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "deviceId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reactionType",
+      "fieldType": "ReactionType",
+      "fieldValues": "LIKE,DISLIKE"
+    }
+  ],
+  "name": "Reaction",
+  "relationships": [
+    {
+      "otherEntityName": "article",
+      "relationshipName": "article",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

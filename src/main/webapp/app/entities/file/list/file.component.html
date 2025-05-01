@@ -24,6 +24,8 @@
 
   <jhi-alert></jhi-alert>
 
+  <jhi-filter [filters]="filters"></jhi-filter>
+
   @if (files?.length === 0) {
     <div class="alert alert-warning" id="no-result">
       <span jhiTranslate="muxtoriyatApp.file.home.notFound">No Files found</span>

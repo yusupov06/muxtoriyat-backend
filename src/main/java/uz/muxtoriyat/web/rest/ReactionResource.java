@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.repository.ReactionRepository;
+import uz.muxtoriyat.service.ReactionQueryService;
 import uz.muxtoriyat.service.ReactionService;
+import uz.muxtoriyat.service.criteria.ReactionCriteria;
 import uz.muxtoriyat.service.dto.ReactionDTO;
 import uz.muxtoriyat.web.rest.errors.BadRequestAlertException;
 
@@ -35,9 +37,16 @@ public class ReactionResource {
 
     private final ReactionRepository reactionRepository;
 
-    public ReactionResource(ReactionService reactionService, ReactionRepository reactionRepository) {
+    private final ReactionQueryService reactionQueryService;
+
+    public ReactionResource(
+        ReactionService reactionService,
+        ReactionRepository reactionRepository,
+        ReactionQueryService reactionQueryService
+    ) {
         this.reactionService = reactionService;
         this.reactionRepository = reactionRepository;
+        this.reactionQueryService = reactionQueryService;
     }
 
     /**
@@ -131,12 +140,27 @@ public class ReactionResource {
     /**
      * {@code GET  /reactions} : get all the reactions.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of reactions in body.
      */
     @GetMapping("")
-    public List<ReactionDTO> getAllReactions() {
-        LOG.debug("REST request to get all Reactions");
-        return reactionService.findAll();
+    public ResponseEntity<List<ReactionDTO>> getAllReactions(ReactionCriteria criteria) {
+        LOG.debug("REST request to get Reactions by criteria: {}", criteria);
+
+        List<ReactionDTO> entityList = reactionQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /reactions/count} : count all the reactions.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countReactions(ReactionCriteria criteria) {
+        LOG.debug("REST request to count Reactions by criteria: {}", criteria);
+        return ResponseEntity.ok().body(reactionQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -20,7 +20,9 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.repository.ArticleRepository;
+import uz.muxtoriyat.service.ArticleQueryService;
 import uz.muxtoriyat.service.ArticleService;
+import uz.muxtoriyat.service.criteria.ArticleCriteria;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 import uz.muxtoriyat.web.rest.errors.BadRequestAlertException;
 
@@ -42,9 +44,12 @@ public class ArticleResource {
 
     private final ArticleRepository articleRepository;
 
-    public ArticleResource(ArticleService articleService, ArticleRepository articleRepository) {
+    private final ArticleQueryService articleQueryService;
+
+    public ArticleResource(ArticleService articleService, ArticleRepository articleRepository, ArticleQueryService articleQueryService) {
         this.articleService = articleService;
         this.articleRepository = articleRepository;
+        this.articleQueryService = articleQueryService;
     }
 
     /**
@@ -139,14 +144,31 @@ public class ArticleResource {
      * {@code GET  /articles} : get all the articles.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<ArticleDTO>> getAllArticles(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Articles");
-        Page<ArticleDTO> page = articleService.findAll(pageable);
+    public ResponseEntity<List<ArticleDTO>> getAllArticles(
+        ArticleCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Articles by criteria: {}", criteria);
+
+        Page<ArticleDTO> page = articleQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /articles/count} : count all the articles.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countArticles(ArticleCriteria criteria) {
+        LOG.debug("REST request to count Articles by criteria: {}", criteria);
+        return ResponseEntity.ok().body(articleQueryService.countByCriteria(criteria));
     }
 
     /**

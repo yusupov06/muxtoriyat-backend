@@ -28,6 +28,7 @@
       "fieldValues": "IMAGE,VIDEO,PDF"
     }
   ],
+  "jpaMetamodelFiltering": true,
   "name": "File",
   "pagination": "pagination",
   "relationships": [

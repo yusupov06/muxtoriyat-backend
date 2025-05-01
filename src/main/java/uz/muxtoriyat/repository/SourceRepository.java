@@ -9,4 +9,4 @@ import uz.muxtoriyat.domain.Source;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SourceRepository extends JpaRepository<Source, Long> {}
+public interface SourceRepository extends JpaRepository<Source, Long>, JpaSpecificationExecutor<Source> {}

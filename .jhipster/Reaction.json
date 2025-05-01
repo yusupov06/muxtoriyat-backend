@@ -15,6 +15,7 @@
       "fieldValues": "LIKE,DISLIKE"
     }
   ],
+  "jpaMetamodelFiltering": true,
   "name": "Reaction",
   "relationships": [
     {

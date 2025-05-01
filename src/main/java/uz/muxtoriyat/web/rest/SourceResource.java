@@ -18,7 +18,9 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.repository.SourceRepository;
+import uz.muxtoriyat.service.SourceQueryService;
 import uz.muxtoriyat.service.SourceService;
+import uz.muxtoriyat.service.criteria.SourceCriteria;
 import uz.muxtoriyat.service.dto.SourceDTO;
 import uz.muxtoriyat.web.rest.errors.BadRequestAlertException;
 
@@ -40,9 +42,12 @@ public class SourceResource {
 
     private final SourceRepository sourceRepository;
 
-    public SourceResource(SourceService sourceService, SourceRepository sourceRepository) {
+    private final SourceQueryService sourceQueryService;
+
+    public SourceResource(SourceService sourceService, SourceRepository sourceRepository, SourceQueryService sourceQueryService) {
         this.sourceService = sourceService;
         this.sourceRepository = sourceRepository;
+        this.sourceQueryService = sourceQueryService;
     }
 
     /**
@@ -137,14 +142,31 @@ public class SourceResource {
      * {@code GET  /sources} : get all the sources.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of sources in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<SourceDTO>> getAllSources(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Sources");
-        Page<SourceDTO> page = sourceService.findAll(pageable);
+    public ResponseEntity<List<SourceDTO>> getAllSources(
+        SourceCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Sources by criteria: {}", criteria);
+
+        Page<SourceDTO> page = sourceQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /sources/count} : count all the sources.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countSources(SourceCriteria criteria) {
+        LOG.debug("REST request to count Sources by criteria: {}", criteria);
+        return ResponseEntity.ok().body(sourceQueryService.countByCriteria(criteria));
     }
 
     /**

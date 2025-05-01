@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
 import uz.muxtoriyat.domain.Article;
+import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.repository.ArticleRepository;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 import uz.muxtoriyat.service.mapper.ArticleMapper;
@@ -219,6 +220,244 @@ class ArticleResourceIT {
             .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
             .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
             .andExpect(jsonPath("$.image").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE)));
+    }
+
+    @Test
+    @Transactional
+    void getArticlesByIdFiltering() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        Long id = article.getId();
+
+        defaultArticleFiltering("id.equals=" + id, "id.notEquals=" + id);
+
+        defaultArticleFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
+
+        defaultArticleFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where name equals to
+        defaultArticleFiltering("name.equals=" + DEFAULT_NAME, "name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where name in
+        defaultArticleFiltering("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME, "name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where name is not null
+        defaultArticleFiltering("name.specified=true", "name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where name contains
+        defaultArticleFiltering("name.contains=" + DEFAULT_NAME, "name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where name does not contain
+        defaultArticleFiltering("name.doesNotContain=" + UPDATED_NAME, "name.doesNotContain=" + DEFAULT_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByTitleIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where title equals to
+        defaultArticleFiltering("title.equals=" + DEFAULT_TITLE, "title.equals=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByTitleIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where title in
+        defaultArticleFiltering("title.in=" + DEFAULT_TITLE + "," + UPDATED_TITLE, "title.in=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByTitleIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where title is not null
+        defaultArticleFiltering("title.specified=true", "title.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByTitleContainsSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where title contains
+        defaultArticleFiltering("title.contains=" + DEFAULT_TITLE, "title.contains=" + UPDATED_TITLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByTitleNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where title does not contain
+        defaultArticleFiltering("title.doesNotContain=" + UPDATED_TITLE, "title.doesNotContain=" + DEFAULT_TITLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where description equals to
+        defaultArticleFiltering("description.equals=" + DEFAULT_DESCRIPTION, "description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where description in
+        defaultArticleFiltering(
+            "description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION,
+            "description.in=" + UPDATED_DESCRIPTION
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where description is not null
+        defaultArticleFiltering("description.specified=true", "description.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where description contains
+        defaultArticleFiltering("description.contains=" + DEFAULT_DESCRIPTION, "description.contains=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where description does not contain
+        defaultArticleFiltering("description.doesNotContain=" + UPDATED_DESCRIPTION, "description.doesNotContain=" + DEFAULT_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByCategoryIsEqualToSomething() throws Exception {
+        Category category;
+        if (TestUtil.findAll(em, Category.class).isEmpty()) {
+            articleRepository.saveAndFlush(article);
+            category = CategoryResourceIT.createEntity();
+        } else {
+            category = TestUtil.findAll(em, Category.class).get(0);
+        }
+        em.persist(category);
+        em.flush();
+        article.setCategory(category);
+        articleRepository.saveAndFlush(article);
+        Long categoryId = category.getId();
+        // Get all the articleList where category equals to categoryId
+        defaultArticleShouldBeFound("categoryId.equals=" + categoryId);
+
+        // Get all the articleList where category equals to (categoryId + 1)
+        defaultArticleShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
+    }
+
+    private void defaultArticleFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
+        defaultArticleShouldBeFound(shouldBeFound);
+        defaultArticleShouldNotBeFound(shouldNotBeFound);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultArticleShouldBeFound(String filter) throws Exception {
+        restArticleMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
+
+        // Check, that the count call also returns 1
+        restArticleMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultArticleShouldNotBeFound(String filter) throws Exception {
+        restArticleMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restArticleMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

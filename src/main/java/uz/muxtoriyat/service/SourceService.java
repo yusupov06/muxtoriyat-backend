@@ -1,8 +1,6 @@
 package uz.muxtoriyat.service;
 
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import uz.muxtoriyat.service.dto.SourceDTO;
 
 /**
@@ -32,14 +30,6 @@ public interface SourceService {
      * @return the persisted entity.
      */
     Optional<SourceDTO> partialUpdate(SourceDTO sourceDTO);
-
-    /**
-     * Get all the sources.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<SourceDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" source.

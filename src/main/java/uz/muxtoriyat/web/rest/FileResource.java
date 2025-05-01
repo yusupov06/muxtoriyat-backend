@@ -20,7 +20,9 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.repository.FileRepository;
+import uz.muxtoriyat.service.FileQueryService;
 import uz.muxtoriyat.service.FileService;
+import uz.muxtoriyat.service.criteria.FileCriteria;
 import uz.muxtoriyat.service.dto.FileDTO;
 import uz.muxtoriyat.web.rest.errors.BadRequestAlertException;
 
@@ -42,9 +44,12 @@ public class FileResource {
 
     private final FileRepository fileRepository;
 
-    public FileResource(FileService fileService, FileRepository fileRepository) {
+    private final FileQueryService fileQueryService;
+
+    public FileResource(FileService fileService, FileRepository fileRepository, FileQueryService fileQueryService) {
         this.fileService = fileService;
         this.fileRepository = fileRepository;
+        this.fileQueryService = fileQueryService;
     }
 
     /**
@@ -139,14 +144,31 @@ public class FileResource {
      * {@code GET  /files} : get all the files.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of files in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<FileDTO>> getAllFiles(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Files");
-        Page<FileDTO> page = fileService.findAll(pageable);
+    public ResponseEntity<List<FileDTO>> getAllFiles(
+        FileCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Files by criteria: {}", criteria);
+
+        Page<FileDTO> page = fileQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /files/count} : count all the files.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countFiles(FileCriteria criteria) {
+        LOG.debug("REST request to count Files by criteria: {}", criteria);
+        return ResponseEntity.ok().body(fileQueryService.countByCriteria(criteria));
     }
 
     /**

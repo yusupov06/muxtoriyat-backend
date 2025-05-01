@@ -1,8 +1,6 @@
 package uz.muxtoriyat.service;
 
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import uz.muxtoriyat.service.dto.CategoryDTO;
 
 /**
@@ -32,14 +30,6 @@ public interface CategoryService {
      * @return the persisted entity.
      */
     Optional<CategoryDTO> partialUpdate(CategoryDTO categoryDTO);
-
-    /**
-     * Get all the categories.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<CategoryDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" category.

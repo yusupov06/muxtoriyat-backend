@@ -1,6 +1,5 @@
 package uz.muxtoriyat.service;
 
-import java.util.List;
 import java.util.Optional;
 import uz.muxtoriyat.service.dto.ReactionDTO;
 
@@ -31,13 +30,6 @@ public interface ReactionService {
      * @return the persisted entity.
      */
     Optional<ReactionDTO> partialUpdate(ReactionDTO reactionDTO);
-
-    /**
-     * Get all the reactions.
-     *
-     * @return the list of entities.
-     */
-    List<ReactionDTO> findAll();
 
     /**
      * Get the "id" reaction.

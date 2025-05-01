@@ -1,8 +1,6 @@
 package uz.muxtoriyat.service;
 
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 
 /**
@@ -32,14 +30,6 @@ public interface ArticleService {
      * @return the persisted entity.
      */
     Optional<ArticleDTO> partialUpdate(ArticleDTO articleDTO);
-
-    /**
-     * Get all the articles.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<ArticleDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" article.

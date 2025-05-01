@@ -21,6 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
+import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.repository.SourceRepository;
 import uz.muxtoriyat.service.dto.SourceDTO;
@@ -170,6 +171,190 @@ class SourceResourceIT {
             .andExpect(jsonPath("$.id").value(source.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
+    }
+
+    @Test
+    @Transactional
+    void getSourcesByIdFiltering() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        Long id = source.getId();
+
+        defaultSourceFiltering("id.equals=" + id, "id.notEquals=" + id);
+
+        defaultSourceFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
+
+        defaultSourceFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where name equals to
+        defaultSourceFiltering("name.equals=" + DEFAULT_NAME, "name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where name in
+        defaultSourceFiltering("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME, "name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where name is not null
+        defaultSourceFiltering("name.specified=true", "name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where name contains
+        defaultSourceFiltering("name.contains=" + DEFAULT_NAME, "name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where name does not contain
+        defaultSourceFiltering("name.doesNotContain=" + UPDATED_NAME, "name.doesNotContain=" + DEFAULT_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where description equals to
+        defaultSourceFiltering("description.equals=" + DEFAULT_DESCRIPTION, "description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where description in
+        defaultSourceFiltering(
+            "description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION,
+            "description.in=" + UPDATED_DESCRIPTION
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where description is not null
+        defaultSourceFiltering("description.specified=true", "description.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where description contains
+        defaultSourceFiltering("description.contains=" + DEFAULT_DESCRIPTION, "description.contains=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where description does not contain
+        defaultSourceFiltering("description.doesNotContain=" + UPDATED_DESCRIPTION, "description.doesNotContain=" + DEFAULT_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByCategoryIsEqualToSomething() throws Exception {
+        Category category;
+        if (TestUtil.findAll(em, Category.class).isEmpty()) {
+            sourceRepository.saveAndFlush(source);
+            category = CategoryResourceIT.createEntity();
+        } else {
+            category = TestUtil.findAll(em, Category.class).get(0);
+        }
+        em.persist(category);
+        em.flush();
+        source.setCategory(category);
+        sourceRepository.saveAndFlush(source);
+        Long categoryId = category.getId();
+        // Get all the sourceList where category equals to categoryId
+        defaultSourceShouldBeFound("categoryId.equals=" + categoryId);
+
+        // Get all the sourceList where category equals to (categoryId + 1)
+        defaultSourceShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
+    }
+
+    private void defaultSourceFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
+        defaultSourceShouldBeFound(shouldBeFound);
+        defaultSourceShouldNotBeFound(shouldNotBeFound);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultSourceShouldBeFound(String filter) throws Exception {
+        restSourceMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(source.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+
+        // Check, that the count call also returns 1
+        restSourceMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultSourceShouldNotBeFound(String filter) throws Exception {
+        restSourceMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restSourceMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

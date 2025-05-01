@@ -3,8 +3,6 @@ package uz.muxtoriyat.service.impl;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.domain.Category;
@@ -60,13 +58,6 @@ public class CategoryServiceImpl implements CategoryService {
             })
             .map(categoryRepository::save)
             .map(categoryMapper::toDto);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<CategoryDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Categories");
-        return categoryRepository.findAll(pageable).map(categoryMapper::toDto);
     }
 
     @Override

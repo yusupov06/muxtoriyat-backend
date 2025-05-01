@@ -18,7 +18,9 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.repository.CategoryRepository;
+import uz.muxtoriyat.service.CategoryQueryService;
 import uz.muxtoriyat.service.CategoryService;
+import uz.muxtoriyat.service.criteria.CategoryCriteria;
 import uz.muxtoriyat.service.dto.CategoryDTO;
 import uz.muxtoriyat.web.rest.errors.BadRequestAlertException;
 
@@ -40,9 +42,16 @@ public class CategoryResource {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryResource(CategoryService categoryService, CategoryRepository categoryRepository) {
+    private final CategoryQueryService categoryQueryService;
+
+    public CategoryResource(
+        CategoryService categoryService,
+        CategoryRepository categoryRepository,
+        CategoryQueryService categoryQueryService
+    ) {
         this.categoryService = categoryService;
         this.categoryRepository = categoryRepository;
+        this.categoryQueryService = categoryQueryService;
     }
 
     /**
@@ -137,14 +146,31 @@ public class CategoryResource {
      * {@code GET  /categories} : get all the categories.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of categories in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<CategoryDTO>> getAllCategories(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Categories");
-        Page<CategoryDTO> page = categoryService.findAll(pageable);
+    public ResponseEntity<List<CategoryDTO>> getAllCategories(
+        CategoryCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Categories by criteria: {}", criteria);
+
+        Page<CategoryDTO> page = categoryQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /categories/count} : count all the categories.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countCategories(CategoryCriteria criteria) {
+        LOG.debug("REST request to count Categories by criteria: {}", criteria);
+        return ResponseEntity.ok().body(categoryQueryService.countByCriteria(criteria));
     }
 
     /**

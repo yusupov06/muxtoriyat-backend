@@ -27,6 +27,7 @@
       "fieldType": "ImageBlob"
     }
   ],
+  "jpaMetamodelFiltering": true,
   "name": "Article",
   "pagination": "pagination",
   "relationships": [

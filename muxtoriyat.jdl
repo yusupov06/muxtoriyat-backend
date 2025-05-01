@@ -52,3 +52,5 @@ paginate Category, Article, Source, File with pagination
 dto * with mapstruct
 
 service all with serviceImpl
+
+filter Source, Article, Category, File, Reaction, Authority, User

@@ -21,6 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
+import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Reaction;
 import uz.muxtoriyat.domain.enumeration.ReactionType;
 import uz.muxtoriyat.repository.ReactionRepository;
@@ -171,6 +172,170 @@ class ReactionResourceIT {
             .andExpect(jsonPath("$.id").value(reaction.getId().intValue()))
             .andExpect(jsonPath("$.deviceId").value(DEFAULT_DEVICE_ID))
             .andExpect(jsonPath("$.reactionType").value(DEFAULT_REACTION_TYPE.toString()));
+    }
+
+    @Test
+    @Transactional
+    void getReactionsByIdFiltering() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        Long id = reaction.getId();
+
+        defaultReactionFiltering("id.equals=" + id, "id.notEquals=" + id);
+
+        defaultReactionFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
+
+        defaultReactionFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByDeviceIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where deviceId equals to
+        defaultReactionFiltering("deviceId.equals=" + DEFAULT_DEVICE_ID, "deviceId.equals=" + UPDATED_DEVICE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByDeviceIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where deviceId in
+        defaultReactionFiltering("deviceId.in=" + DEFAULT_DEVICE_ID + "," + UPDATED_DEVICE_ID, "deviceId.in=" + UPDATED_DEVICE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByDeviceIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where deviceId is not null
+        defaultReactionFiltering("deviceId.specified=true", "deviceId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByDeviceIdContainsSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where deviceId contains
+        defaultReactionFiltering("deviceId.contains=" + DEFAULT_DEVICE_ID, "deviceId.contains=" + UPDATED_DEVICE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByDeviceIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where deviceId does not contain
+        defaultReactionFiltering("deviceId.doesNotContain=" + UPDATED_DEVICE_ID, "deviceId.doesNotContain=" + DEFAULT_DEVICE_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByReactionTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where reactionType equals to
+        defaultReactionFiltering("reactionType.equals=" + DEFAULT_REACTION_TYPE, "reactionType.equals=" + UPDATED_REACTION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByReactionTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where reactionType in
+        defaultReactionFiltering(
+            "reactionType.in=" + DEFAULT_REACTION_TYPE + "," + UPDATED_REACTION_TYPE,
+            "reactionType.in=" + UPDATED_REACTION_TYPE
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByReactionTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where reactionType is not null
+        defaultReactionFiltering("reactionType.specified=true", "reactionType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByArticleIsEqualToSomething() throws Exception {
+        Article article;
+        if (TestUtil.findAll(em, Article.class).isEmpty()) {
+            reactionRepository.saveAndFlush(reaction);
+            article = ArticleResourceIT.createEntity();
+        } else {
+            article = TestUtil.findAll(em, Article.class).get(0);
+        }
+        em.persist(article);
+        em.flush();
+        reaction.setArticle(article);
+        reactionRepository.saveAndFlush(reaction);
+        Long articleId = article.getId();
+        // Get all the reactionList where article equals to articleId
+        defaultReactionShouldBeFound("articleId.equals=" + articleId);
+
+        // Get all the reactionList where article equals to (articleId + 1)
+        defaultReactionShouldNotBeFound("articleId.equals=" + (articleId + 1));
+    }
+
+    private void defaultReactionFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
+        defaultReactionShouldBeFound(shouldBeFound);
+        defaultReactionShouldNotBeFound(shouldNotBeFound);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultReactionShouldBeFound(String filter) throws Exception {
+        restReactionMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(reaction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].deviceId").value(hasItem(DEFAULT_DEVICE_ID)))
+            .andExpect(jsonPath("$.[*].reactionType").value(hasItem(DEFAULT_REACTION_TYPE.toString())));
+
+        // Check, that the count call also returns 1
+        restReactionMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultReactionShouldNotBeFound(String filter) throws Exception {
+        restReactionMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restReactionMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

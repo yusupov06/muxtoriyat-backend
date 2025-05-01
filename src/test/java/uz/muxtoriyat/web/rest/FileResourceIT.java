@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
 import uz.muxtoriyat.domain.File;
+import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.domain.enumeration.FileType;
 import uz.muxtoriyat.repository.FileRepository;
 import uz.muxtoriyat.service.dto.FileDTO;
@@ -220,6 +221,271 @@ class FileResourceIT {
             .andExpect(jsonPath("$.contentContentType").value(DEFAULT_CONTENT_CONTENT_TYPE))
             .andExpect(jsonPath("$.content").value(Base64.getEncoder().encodeToString(DEFAULT_CONTENT)))
             .andExpect(jsonPath("$.fileType").value(DEFAULT_FILE_TYPE.toString()));
+    }
+
+    @Test
+    @Transactional
+    void getFilesByIdFiltering() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        Long id = file.getId();
+
+        defaultFileFiltering("id.equals=" + id, "id.notEquals=" + id);
+
+        defaultFileFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
+
+        defaultFileFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where name equals to
+        defaultFileFiltering("name.equals=" + DEFAULT_NAME, "name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where name in
+        defaultFileFiltering("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME, "name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where name is not null
+        defaultFileFiltering("name.specified=true", "name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where name contains
+        defaultFileFiltering("name.contains=" + DEFAULT_NAME, "name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where name does not contain
+        defaultFileFiltering("name.doesNotContain=" + UPDATED_NAME, "name.doesNotContain=" + DEFAULT_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where description equals to
+        defaultFileFiltering("description.equals=" + DEFAULT_DESCRIPTION, "description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where description in
+        defaultFileFiltering("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION, "description.in=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where description is not null
+        defaultFileFiltering("description.specified=true", "description.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where description contains
+        defaultFileFiltering("description.contains=" + DEFAULT_DESCRIPTION, "description.contains=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where description does not contain
+        defaultFileFiltering("description.doesNotContain=" + UPDATED_DESCRIPTION, "description.doesNotContain=" + DEFAULT_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where url equals to
+        defaultFileFiltering("url.equals=" + DEFAULT_URL, "url.equals=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where url in
+        defaultFileFiltering("url.in=" + DEFAULT_URL + "," + UPDATED_URL, "url.in=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where url is not null
+        defaultFileFiltering("url.specified=true", "url.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByUrlContainsSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where url contains
+        defaultFileFiltering("url.contains=" + DEFAULT_URL, "url.contains=" + UPDATED_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByUrlNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where url does not contain
+        defaultFileFiltering("url.doesNotContain=" + UPDATED_URL, "url.doesNotContain=" + DEFAULT_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByFileTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where fileType equals to
+        defaultFileFiltering("fileType.equals=" + DEFAULT_FILE_TYPE, "fileType.equals=" + UPDATED_FILE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByFileTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where fileType in
+        defaultFileFiltering("fileType.in=" + DEFAULT_FILE_TYPE + "," + UPDATED_FILE_TYPE, "fileType.in=" + UPDATED_FILE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesByFileTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedFile = fileRepository.saveAndFlush(file);
+
+        // Get all the fileList where fileType is not null
+        defaultFileFiltering("fileType.specified=true", "fileType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllFilesBySourceIsEqualToSomething() throws Exception {
+        Source source;
+        if (TestUtil.findAll(em, Source.class).isEmpty()) {
+            fileRepository.saveAndFlush(file);
+            source = SourceResourceIT.createEntity();
+        } else {
+            source = TestUtil.findAll(em, Source.class).get(0);
+        }
+        em.persist(source);
+        em.flush();
+        file.setSource(source);
+        fileRepository.saveAndFlush(file);
+        Long sourceId = source.getId();
+        // Get all the fileList where source equals to sourceId
+        defaultFileShouldBeFound("sourceId.equals=" + sourceId);
+
+        // Get all the fileList where source equals to (sourceId + 1)
+        defaultFileShouldNotBeFound("sourceId.equals=" + (sourceId + 1));
+    }
+
+    private void defaultFileFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
+        defaultFileShouldBeFound(shouldBeFound);
+        defaultFileShouldNotBeFound(shouldNotBeFound);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultFileShouldBeFound(String filter) throws Exception {
+        restFileMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(file.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
+            .andExpect(jsonPath("$.[*].contentContentType").value(hasItem(DEFAULT_CONTENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_CONTENT))))
+            .andExpect(jsonPath("$.[*].fileType").value(hasItem(DEFAULT_FILE_TYPE.toString())));
+
+        // Check, that the count call also returns 1
+        restFileMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultFileShouldNotBeFound(String filter) throws Exception {
+        restFileMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restFileMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

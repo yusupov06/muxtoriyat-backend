@@ -1,9 +1,6 @@
 package uz.muxtoriyat.service.impl;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -61,13 +58,6 @@ public class ReactionServiceImpl implements ReactionService {
             })
             .map(reactionRepository::save)
             .map(reactionMapper::toDto);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<ReactionDTO> findAll() {
-        LOG.debug("Request to get all Reactions");
-        return reactionRepository.findAll().stream().map(reactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override

@@ -9,4 +9,4 @@ import uz.muxtoriyat.domain.Reaction;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ReactionRepository extends JpaRepository<Reaction, Long> {}
+public interface ReactionRepository extends JpaRepository<Reaction, Long>, JpaSpecificationExecutor<Reaction> {}

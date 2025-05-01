@@ -31,7 +31,6 @@ public class Article implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Lob
     @Column(name = "content")
     private String content;
 

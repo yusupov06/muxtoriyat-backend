@@ -3,8 +3,6 @@ package uz.muxtoriyat.service.impl;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.domain.Source;
@@ -60,13 +58,6 @@ public class SourceServiceImpl implements SourceService {
             })
             .map(sourceRepository::save)
             .map(sourceMapper::toDto);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<SourceDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Sources");
-        return sourceRepository.findAll(pageable).map(sourceMapper::toDto);
     }
 
     @Override

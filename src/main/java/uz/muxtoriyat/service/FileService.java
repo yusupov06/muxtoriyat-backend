@@ -1,8 +1,6 @@
 package uz.muxtoriyat.service;
 
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import uz.muxtoriyat.service.dto.FileDTO;
 
 /**
@@ -32,14 +30,6 @@ public interface FileService {
      * @return the persisted entity.
      */
     Optional<FileDTO> partialUpdate(FileDTO fileDTO);
-
-    /**
-     * Get all the files.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<FileDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" file.

@@ -9,4 +9,4 @@ import uz.muxtoriyat.domain.Article;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long> {}
+public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {}

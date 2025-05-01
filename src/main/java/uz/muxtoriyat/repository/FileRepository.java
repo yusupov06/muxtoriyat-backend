@@ -9,4 +9,4 @@ import uz.muxtoriyat.domain.File;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface FileRepository extends JpaRepository<File, Long> {}
+public interface FileRepository extends JpaRepository<File, Long>, JpaSpecificationExecutor<File> {}

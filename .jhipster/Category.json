@@ -18,6 +18,7 @@
       "fieldType": "Integer"
     }
   ],
+  "jpaMetamodelFiltering": true,
   "name": "Category",
   "pagination": "pagination",
   "relationships": [

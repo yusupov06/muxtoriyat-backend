@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
 import uz.muxtoriyat.domain.Category;
+import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.repository.CategoryRepository;
 import uz.muxtoriyat.service.dto.CategoryDTO;
 import uz.muxtoriyat.service.mapper.CategoryMapper;
@@ -42,6 +43,7 @@ class CategoryResourceIT {
 
     private static final Integer DEFAULT_ORDER = 1;
     private static final Integer UPDATED_ORDER = 2;
+    private static final Integer SMALLER_ORDER = 1 - 1;
 
     private static final String ENTITY_API_URL = "/api/categories";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -175,6 +177,261 @@ class CategoryResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.order").value(DEFAULT_ORDER));
+    }
+
+    @Test
+    @Transactional
+    void getCategoriesByIdFiltering() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        Long id = category.getId();
+
+        defaultCategoryFiltering("id.equals=" + id, "id.notEquals=" + id);
+
+        defaultCategoryFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
+
+        defaultCategoryFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where name equals to
+        defaultCategoryFiltering("name.equals=" + DEFAULT_NAME, "name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where name in
+        defaultCategoryFiltering("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME, "name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where name is not null
+        defaultCategoryFiltering("name.specified=true", "name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where name contains
+        defaultCategoryFiltering("name.contains=" + DEFAULT_NAME, "name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where name does not contain
+        defaultCategoryFiltering("name.doesNotContain=" + UPDATED_NAME, "name.doesNotContain=" + DEFAULT_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where description equals to
+        defaultCategoryFiltering("description.equals=" + DEFAULT_DESCRIPTION, "description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where description in
+        defaultCategoryFiltering(
+            "description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION,
+            "description.in=" + UPDATED_DESCRIPTION
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where description is not null
+        defaultCategoryFiltering("description.specified=true", "description.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where description contains
+        defaultCategoryFiltering("description.contains=" + DEFAULT_DESCRIPTION, "description.contains=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where description does not contain
+        defaultCategoryFiltering("description.doesNotContain=" + UPDATED_DESCRIPTION, "description.doesNotContain=" + DEFAULT_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order equals to
+        defaultCategoryFiltering("order.equals=" + DEFAULT_ORDER, "order.equals=" + UPDATED_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order in
+        defaultCategoryFiltering("order.in=" + DEFAULT_ORDER + "," + UPDATED_ORDER, "order.in=" + UPDATED_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order is not null
+        defaultCategoryFiltering("order.specified=true", "order.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order is greater than or equal to
+        defaultCategoryFiltering("order.greaterThanOrEqual=" + DEFAULT_ORDER, "order.greaterThanOrEqual=" + UPDATED_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order is less than or equal to
+        defaultCategoryFiltering("order.lessThanOrEqual=" + DEFAULT_ORDER, "order.lessThanOrEqual=" + SMALLER_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order is less than
+        defaultCategoryFiltering("order.lessThan=" + UPDATED_ORDER, "order.lessThan=" + DEFAULT_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByOrderIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedCategory = categoryRepository.saveAndFlush(category);
+
+        // Get all the categoryList where order is greater than
+        defaultCategoryFiltering("order.greaterThan=" + SMALLER_ORDER, "order.greaterThan=" + DEFAULT_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCategoriesByParentIsEqualToSomething() throws Exception {
+        Category parent;
+        if (TestUtil.findAll(em, Category.class).isEmpty()) {
+            categoryRepository.saveAndFlush(category);
+            parent = CategoryResourceIT.createEntity();
+        } else {
+            parent = TestUtil.findAll(em, Category.class).get(0);
+        }
+        em.persist(parent);
+        em.flush();
+        category.setParent(parent);
+        categoryRepository.saveAndFlush(category);
+        Long parentId = parent.getId();
+        // Get all the categoryList where parent equals to parentId
+        defaultCategoryShouldBeFound("parentId.equals=" + parentId);
+
+        // Get all the categoryList where parent equals to (parentId + 1)
+        defaultCategoryShouldNotBeFound("parentId.equals=" + (parentId + 1));
+    }
+
+    private void defaultCategoryFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
+        defaultCategoryShouldBeFound(shouldBeFound);
+        defaultCategoryShouldNotBeFound(shouldNotBeFound);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultCategoryShouldBeFound(String filter) throws Exception {
+        restCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(category.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
+
+        // Check, that the count call also returns 1
+        restCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultCategoryShouldNotBeFound(String filter) throws Exception {
+        restCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

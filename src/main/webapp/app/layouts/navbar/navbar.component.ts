@@ -36,11 +36,11 @@ export default class NavbarComponent implements OnInit {
   private profileService = inject(ProfileService);
   private router = inject(Router);
 
-  constructor() {
-    if (VERSION) {
-      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
-    }
-  }
+  // constructor() {
+  //   if (VERSION) {
+  //     this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+  //   }
+  // }
 
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;

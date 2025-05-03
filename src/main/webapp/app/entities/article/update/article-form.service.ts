@@ -57,7 +57,16 @@ export class ArticleFormService {
   }
 
   getArticle(form: ArticleFormGroup): IArticle | NewArticle {
-    return form.getRawValue() as IArticle | NewArticle;
+    const rawValue = form.getRawValue();
+
+    const cleanedContent = (rawValue.content || '')
+      .replace(/<\/?p>/g, '') // <p> va </p> ni olib tashlash
+      .trim();
+
+    return {
+      ...rawValue,
+      content: cleanedContent,
+    };
   }
 
   resetForm(form: ArticleFormGroup, article: ArticleFormGroupInput): void {

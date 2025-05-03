@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A Article.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "article")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -47,21 +51,9 @@ public class Article implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Article id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public Article name(String name) {
@@ -69,25 +61,9 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
     public Article title(String title) {
         this.setTitle(title);
         return this;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return this.description;
     }
 
     public Article description(String description) {
@@ -95,25 +71,9 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
     public Article content(String content) {
         this.setContent(content);
         return this;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public byte[] getImage() {
-        return this.image;
     }
 
     public Article image(byte[] image) {
@@ -121,29 +81,9 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getImageContentType() {
-        return this.imageContentType;
-    }
-
     public Article imageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
         return this;
-    }
-
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-    }
-
-    public Category getCategory() {
-        return this.category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Article category(Category category) {

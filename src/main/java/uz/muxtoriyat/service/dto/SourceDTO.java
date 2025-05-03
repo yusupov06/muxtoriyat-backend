@@ -1,12 +1,17 @@
 package uz.muxtoriyat.service.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A DTO for the {@link uz.muxtoriyat.domain.Source} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Getter
+@Setter
 public class SourceDTO implements Serializable {
 
     private Long id;
@@ -17,37 +22,7 @@ public class SourceDTO implements Serializable {
 
     private CategoryDTO category;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CategoryDTO getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryDTO category) {
-        this.category = category;
-    }
+    private FileDTO file;
 
     @Override
     public boolean equals(Object o) {

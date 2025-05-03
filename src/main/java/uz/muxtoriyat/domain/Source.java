@@ -3,10 +3,15 @@ package uz.muxtoriyat.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A Source.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "source")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -30,23 +35,15 @@ public class Source implements Serializable {
     @JsonIgnoreProperties(value = { "parent" }, allowSetters = true)
     private Category category;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+    @OneToMany(mappedBy = "source")
+    @JsonIgnoreProperties(value = { "source" }, allowSetters = true)
+    private List<File> files;
 
-    public Long getId() {
-        return this.id;
-    }
+    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Source id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public Source name(String name) {
@@ -54,29 +51,9 @@ public class Source implements Serializable {
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
     public Source description(String description) {
         this.setDescription(description);
         return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Category getCategory() {
-        return this.category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Source category(Category category) {

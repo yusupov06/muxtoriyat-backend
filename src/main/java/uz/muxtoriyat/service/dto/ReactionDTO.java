@@ -2,11 +2,15 @@ package uz.muxtoriyat.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 import uz.muxtoriyat.domain.enumeration.ReactionType;
 
 /**
  * A DTO for the {@link uz.muxtoriyat.domain.Reaction} entity.
  */
+@Setter
+@Getter
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ReactionDTO implements Serializable {
 
@@ -17,38 +21,6 @@ public class ReactionDTO implements Serializable {
     private ReactionType reactionType;
 
     private ArticleDTO article;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public ReactionType getReactionType() {
-        return reactionType;
-    }
-
-    public void setReactionType(ReactionType reactionType) {
-        this.reactionType = reactionType;
-    }
-
-    public ArticleDTO getArticle() {
-        return article;
-    }
-
-    public void setArticle(ArticleDTO article) {
-        this.article = article;
-    }
 
     @Override
     public boolean equals(Object o) {

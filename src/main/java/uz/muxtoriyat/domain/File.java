@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 import uz.muxtoriyat.domain.enumeration.FileType;
 
 /**
  * A File.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "file")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -49,21 +53,9 @@ public class File implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public File id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public File name(String name) {
@@ -71,25 +63,9 @@ public class File implements Serializable {
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
     public File description(String description) {
         this.setDescription(description);
         return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUrl() {
-        return this.url;
     }
 
     public File url(String url) {
@@ -97,25 +73,9 @@ public class File implements Serializable {
         return this;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public byte[] getContent() {
-        return this.content;
-    }
-
     public File content(byte[] content) {
         this.setContent(content);
         return this;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
-
-    public String getContentContentType() {
-        return this.contentContentType;
     }
 
     public File contentContentType(String contentContentType) {
@@ -123,29 +83,9 @@ public class File implements Serializable {
         return this;
     }
 
-    public void setContentContentType(String contentContentType) {
-        this.contentContentType = contentContentType;
-    }
-
-    public FileType getFileType() {
-        return this.fileType;
-    }
-
     public File fileType(FileType fileType) {
         this.setFileType(fileType);
         return this;
-    }
-
-    public void setFileType(FileType fileType) {
-        this.fileType = fileType;
-    }
-
-    public Source getSource() {
-        return this.source;
-    }
-
-    public void setSource(Source source) {
-        this.source = source;
     }
 
     public File source(Source source) {

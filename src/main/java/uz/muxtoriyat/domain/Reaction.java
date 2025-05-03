@@ -3,11 +3,15 @@ package uz.muxtoriyat.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 import uz.muxtoriyat.domain.enumeration.ReactionType;
 
 /**
  * A Reaction.
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "reaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -34,21 +38,9 @@ public class Reaction implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Reaction id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDeviceId() {
-        return this.deviceId;
     }
 
     public Reaction deviceId(String deviceId) {
@@ -56,29 +48,9 @@ public class Reaction implements Serializable {
         return this;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public ReactionType getReactionType() {
-        return this.reactionType;
-    }
-
     public Reaction reactionType(ReactionType reactionType) {
         this.setReactionType(reactionType);
         return this;
-    }
-
-    public void setReactionType(ReactionType reactionType) {
-        this.reactionType = reactionType;
-    }
-
-    public Article getArticle() {
-        return this.article;
-    }
-
-    public void setArticle(Article article) {
-        this.article = article;
     }
 
     public Reaction article(Article article) {

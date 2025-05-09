@@ -9,6 +9,7 @@ import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.repository.ArticleRepository;
 import uz.muxtoriyat.service.ArticleService;
 import uz.muxtoriyat.service.dto.ArticleDTO;
+import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 import uz.muxtoriyat.service.mapper.ArticleMapper;
 
 /**
@@ -65,6 +66,11 @@ public class ArticleServiceImpl implements ArticleService {
     public Optional<ArticleDTO> findOne(Long id) {
         LOG.debug("Request to get Article : {}", id);
         return articleRepository.findById(id).map(articleMapper::toDto);
+    }
+
+    @Override
+    public Optional<ArticleViewDTO> findOneAsView(Long id) {
+        return articleRepository.findById(id).map(articleMapper::toViewDto);
     }
 
     @Override

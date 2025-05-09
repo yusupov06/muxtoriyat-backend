@@ -5,6 +5,7 @@ import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 
 /**
  * Mapper for the entity {@link Article} and its DTO {@link ArticleDTO}.
@@ -18,4 +19,6 @@ public interface ArticleMapper extends EntityMapper<ArticleDTO, Article> {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     CategoryDTO toDtoCategoryId(Category category);
+
+    ArticleViewDTO toViewDto(Article article);
 }

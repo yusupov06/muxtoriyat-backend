@@ -21,7 +21,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
-import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Reaction;
 import uz.muxtoriyat.domain.enumeration.ReactionType;
 import uz.muxtoriyat.repository.ReactionRepository;
@@ -38,6 +37,10 @@ class ReactionResourceIT {
 
     private static final String DEFAULT_DEVICE_ID = "AAAAAAAAAA";
     private static final String UPDATED_DEVICE_ID = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_TARGET_ID = 1L;
+    private static final Long UPDATED_TARGET_ID = 2L;
+    private static final Long SMALLER_TARGET_ID = 1L - 1L;
 
     private static final ReactionType DEFAULT_REACTION_TYPE = ReactionType.LIKE;
     private static final ReactionType UPDATED_REACTION_TYPE = ReactionType.DISLIKE;
@@ -74,7 +77,7 @@ class ReactionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Reaction createEntity() {
-        return new Reaction().deviceId(DEFAULT_DEVICE_ID).reactionType(DEFAULT_REACTION_TYPE);
+        return new Reaction().deviceId(DEFAULT_DEVICE_ID).targetId(DEFAULT_TARGET_ID).reactionType(DEFAULT_REACTION_TYPE);
     }
 
     /**
@@ -84,7 +87,7 @@ class ReactionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Reaction createUpdatedEntity() {
-        return new Reaction().deviceId(UPDATED_DEVICE_ID).reactionType(UPDATED_REACTION_TYPE);
+        return new Reaction().deviceId(UPDATED_DEVICE_ID).targetId(UPDATED_TARGET_ID).reactionType(UPDATED_REACTION_TYPE);
     }
 
     @BeforeEach
@@ -155,6 +158,7 @@ class ReactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].deviceId").value(hasItem(DEFAULT_DEVICE_ID)))
+            .andExpect(jsonPath("$.[*].targetId").value(hasItem(DEFAULT_TARGET_ID.intValue())))
             .andExpect(jsonPath("$.[*].reactionType").value(hasItem(DEFAULT_REACTION_TYPE.toString())));
     }
 
@@ -171,6 +175,7 @@ class ReactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(reaction.getId().intValue()))
             .andExpect(jsonPath("$.deviceId").value(DEFAULT_DEVICE_ID))
+            .andExpect(jsonPath("$.targetId").value(DEFAULT_TARGET_ID.intValue()))
             .andExpect(jsonPath("$.reactionType").value(DEFAULT_REACTION_TYPE.toString()));
     }
 
@@ -241,6 +246,76 @@ class ReactionResourceIT {
 
     @Test
     @Transactional
+    void getAllReactionsByTargetIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId equals to
+        defaultReactionFiltering("targetId.equals=" + DEFAULT_TARGET_ID, "targetId.equals=" + UPDATED_TARGET_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByTargetIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId in
+        defaultReactionFiltering("targetId.in=" + DEFAULT_TARGET_ID + "," + UPDATED_TARGET_ID, "targetId.in=" + UPDATED_TARGET_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByTargetIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId is not null
+        defaultReactionFiltering("targetId.specified=true", "targetId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByTargetIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId is greater than or equal to
+        defaultReactionFiltering("targetId.greaterThanOrEqual=" + DEFAULT_TARGET_ID, "targetId.greaterThanOrEqual=" + UPDATED_TARGET_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByTargetIdIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId is less than or equal to
+        defaultReactionFiltering("targetId.lessThanOrEqual=" + DEFAULT_TARGET_ID, "targetId.lessThanOrEqual=" + SMALLER_TARGET_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByTargetIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId is less than
+        defaultReactionFiltering("targetId.lessThan=" + UPDATED_TARGET_ID, "targetId.lessThan=" + DEFAULT_TARGET_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllReactionsByTargetIdIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedReaction = reactionRepository.saveAndFlush(reaction);
+
+        // Get all the reactionList where targetId is greater than
+        defaultReactionFiltering("targetId.greaterThan=" + SMALLER_TARGET_ID, "targetId.greaterThan=" + DEFAULT_TARGET_ID);
+    }
+
+    @Test
+    @Transactional
     void getAllReactionsByReactionTypeIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedReaction = reactionRepository.saveAndFlush(reaction);
@@ -272,28 +347,6 @@ class ReactionResourceIT {
         defaultReactionFiltering("reactionType.specified=true", "reactionType.specified=false");
     }
 
-    @Test
-    @Transactional
-    void getAllReactionsByArticleIsEqualToSomething() throws Exception {
-        Article article;
-        if (TestUtil.findAll(em, Article.class).isEmpty()) {
-            reactionRepository.saveAndFlush(reaction);
-            article = ArticleResourceIT.createEntity();
-        } else {
-            article = TestUtil.findAll(em, Article.class).get(0);
-        }
-        em.persist(article);
-        em.flush();
-        reaction.setArticle(article);
-        reactionRepository.saveAndFlush(reaction);
-        Long articleId = article.getId();
-        // Get all the reactionList where article equals to articleId
-        defaultReactionShouldBeFound("articleId.equals=" + articleId);
-
-        // Get all the reactionList where article equals to (articleId + 1)
-        defaultReactionShouldNotBeFound("articleId.equals=" + (articleId + 1));
-    }
-
     private void defaultReactionFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
         defaultReactionShouldBeFound(shouldBeFound);
         defaultReactionShouldNotBeFound(shouldNotBeFound);
@@ -309,6 +362,7 @@ class ReactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].deviceId").value(hasItem(DEFAULT_DEVICE_ID)))
+            .andExpect(jsonPath("$.[*].targetId").value(hasItem(DEFAULT_TARGET_ID.intValue())))
             .andExpect(jsonPath("$.[*].reactionType").value(hasItem(DEFAULT_REACTION_TYPE.toString())));
 
         // Check, that the count call also returns 1
@@ -357,7 +411,7 @@ class ReactionResourceIT {
         Reaction updatedReaction = reactionRepository.findById(reaction.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedReaction are not directly saved in db
         em.detach(updatedReaction);
-        updatedReaction.deviceId(UPDATED_DEVICE_ID).reactionType(UPDATED_REACTION_TYPE);
+        updatedReaction.deviceId(UPDATED_DEVICE_ID).targetId(UPDATED_TARGET_ID).reactionType(UPDATED_REACTION_TYPE);
         ReactionDTO reactionDTO = reactionMapper.toDto(updatedReaction);
 
         restReactionMockMvc
@@ -447,7 +501,7 @@ class ReactionResourceIT {
         Reaction partialUpdatedReaction = new Reaction();
         partialUpdatedReaction.setId(reaction.getId());
 
-        partialUpdatedReaction.reactionType(UPDATED_REACTION_TYPE);
+        partialUpdatedReaction.targetId(UPDATED_TARGET_ID);
 
         restReactionMockMvc
             .perform(
@@ -475,7 +529,7 @@ class ReactionResourceIT {
         Reaction partialUpdatedReaction = new Reaction();
         partialUpdatedReaction.setId(reaction.getId());
 
-        partialUpdatedReaction.deviceId(UPDATED_DEVICE_ID).reactionType(UPDATED_REACTION_TYPE);
+        partialUpdatedReaction.deviceId(UPDATED_DEVICE_ID).targetId(UPDATED_TARGET_ID).reactionType(UPDATED_REACTION_TYPE);
 
         restReactionMockMvc
             .perform(

@@ -44,9 +44,9 @@ public class ReactionCriteria implements Serializable, Criteria {
 
     private StringFilter deviceId;
 
-    private ReactionTypeFilter reactionType;
+    private LongFilter targetId;
 
-    private LongFilter articleId;
+    private ReactionTypeFilter reactionType;
 
     private Boolean distinct;
 
@@ -55,8 +55,8 @@ public class ReactionCriteria implements Serializable, Criteria {
     public ReactionCriteria(ReactionCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.deviceId = other.optionalDeviceId().map(StringFilter::copy).orElse(null);
+        this.targetId = other.optionalTargetId().map(LongFilter::copy).orElse(null);
         this.reactionType = other.optionalReactionType().map(ReactionTypeFilter::copy).orElse(null);
-        this.articleId = other.optionalArticleId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -103,6 +103,25 @@ public class ReactionCriteria implements Serializable, Criteria {
         this.deviceId = deviceId;
     }
 
+    public LongFilter getTargetId() {
+        return targetId;
+    }
+
+    public Optional<LongFilter> optionalTargetId() {
+        return Optional.ofNullable(targetId);
+    }
+
+    public LongFilter targetId() {
+        if (targetId == null) {
+            setTargetId(new LongFilter());
+        }
+        return targetId;
+    }
+
+    public void setTargetId(LongFilter targetId) {
+        this.targetId = targetId;
+    }
+
     public ReactionTypeFilter getReactionType() {
         return reactionType;
     }
@@ -120,25 +139,6 @@ public class ReactionCriteria implements Serializable, Criteria {
 
     public void setReactionType(ReactionTypeFilter reactionType) {
         this.reactionType = reactionType;
-    }
-
-    public LongFilter getArticleId() {
-        return articleId;
-    }
-
-    public Optional<LongFilter> optionalArticleId() {
-        return Optional.ofNullable(articleId);
-    }
-
-    public LongFilter articleId() {
-        if (articleId == null) {
-            setArticleId(new LongFilter());
-        }
-        return articleId;
-    }
-
-    public void setArticleId(LongFilter articleId) {
-        this.articleId = articleId;
     }
 
     public Boolean getDistinct() {
@@ -172,15 +172,15 @@ public class ReactionCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(deviceId, that.deviceId) &&
+            Objects.equals(targetId, that.targetId) &&
             Objects.equals(reactionType, that.reactionType) &&
-            Objects.equals(articleId, that.articleId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, deviceId, reactionType, articleId, distinct);
+        return Objects.hash(id, deviceId, targetId, reactionType, distinct);
     }
 
     // prettier-ignore
@@ -189,8 +189,8 @@ public class ReactionCriteria implements Serializable, Criteria {
         return "ReactionCriteria{" +
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalDeviceId().map(f -> "deviceId=" + f + ", ").orElse("") +
+            optionalTargetId().map(f -> "targetId=" + f + ", ").orElse("") +
             optionalReactionType().map(f -> "reactionType=" + f + ", ").orElse("") +
-            optionalArticleId().map(f -> "articleId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

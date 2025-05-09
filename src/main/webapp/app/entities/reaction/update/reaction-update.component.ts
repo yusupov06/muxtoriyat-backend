@@ -2,16 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IArticle } from 'app/entities/article/article.model';
-import { ArticleService } from 'app/entities/article/service/article.service';
 import { ReactionType } from 'app/entities/enumerations/reaction-type.model';
-import { ReactionService } from '../service/reaction.service';
 import { IReaction } from '../reaction.model';
+import { ReactionService } from '../service/reaction.service';
 import { ReactionFormGroup, ReactionFormService } from './reaction-form.service';
 
 @Component({
@@ -25,17 +23,12 @@ export class ReactionUpdateComponent implements OnInit {
   reaction: IReaction | null = null;
   reactionTypeValues = Object.keys(ReactionType);
 
-  articlesSharedCollection: IArticle[] = [];
-
   protected reactionService = inject(ReactionService);
   protected reactionFormService = inject(ReactionFormService);
-  protected articleService = inject(ArticleService);
   protected activatedRoute = inject(ActivatedRoute);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: ReactionFormGroup = this.reactionFormService.createReactionFormGroup();
-
-  compareArticle = (o1: IArticle | null, o2: IArticle | null): boolean => this.articleService.compareArticle(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ reaction }) => {
@@ -43,8 +36,6 @@ export class ReactionUpdateComponent implements OnInit {
       if (reaction) {
         this.updateForm(reaction);
       }
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -84,18 +75,5 @@ export class ReactionUpdateComponent implements OnInit {
   protected updateForm(reaction: IReaction): void {
     this.reaction = reaction;
     this.reactionFormService.resetForm(this.editForm, reaction);
-
-    this.articlesSharedCollection = this.articleService.addArticleToCollectionIfMissing<IArticle>(
-      this.articlesSharedCollection,
-      reaction.article,
-    );
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.articleService
-      .query()
-      .pipe(map((res: HttpResponse<IArticle[]>) => res.body ?? []))
-      .pipe(map((articles: IArticle[]) => this.articleService.addArticleToCollectionIfMissing<IArticle>(articles, this.reaction?.article)))
-      .subscribe((articles: IArticle[]) => (this.articlesSharedCollection = articles));
   }
 }

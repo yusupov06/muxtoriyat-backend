@@ -17,10 +17,10 @@
             <column name="device_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="reaction_type" type="varchar(255)">
+            <column name="target_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="article_id" type="bigint">
+            <column name="reaction_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -45,6 +45,7 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="device_id" type="string"/>
+            <column name="target_id" type="numeric"/>
             <column name="reaction_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

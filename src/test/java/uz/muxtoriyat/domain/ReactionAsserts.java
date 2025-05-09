@@ -48,6 +48,7 @@ public class ReactionAsserts {
         assertThat(expected)
             .as("Verify Reaction relevant properties")
             .satisfies(e -> assertThat(e.getDeviceId()).as("check deviceId").isEqualTo(actual.getDeviceId()))
+            .satisfies(e -> assertThat(e.getTargetId()).as("check targetId").isEqualTo(actual.getTargetId()))
             .satisfies(e -> assertThat(e.getReactionType()).as("check reactionType").isEqualTo(actual.getReactionType()));
     }
 
@@ -58,8 +59,6 @@ public class ReactionAsserts {
      * @param actual the actual entity
      */
     public static void assertReactionUpdatableRelationshipsEquals(Reaction expected, Reaction actual) {
-        assertThat(expected)
-            .as("Verify Reaction relationships")
-            .satisfies(e -> assertThat(e.getArticle()).as("check article").isEqualTo(actual.getArticle()));
+        // empty method
     }
 }

@@ -18,6 +18,7 @@ import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.service.SourceQueryService;
 import uz.muxtoriyat.service.SourceService;
+import uz.muxtoriyat.service.SourceViewService;
 import uz.muxtoriyat.service.criteria.SourceCriteria;
 import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 
@@ -32,6 +33,8 @@ public class SourceViewResource {
     private static final Logger LOG = LoggerFactory.getLogger(SourceViewResource.class);
 
     private final SourceService sourceService;
+
+    private final SourceViewService sourceViewService;
 
     private final SourceQueryService sourceQueryService;
 
@@ -51,7 +54,9 @@ public class SourceViewResource {
 
         Page<SourceViewDTO> page = sourceQueryService.findByCriteriaAsView(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<SourceViewDTO> content = page.getContent();
+        sourceViewService.fillReactions(content);
+        return ResponseEntity.ok().headers(headers).body(content);
     }
 
     /**

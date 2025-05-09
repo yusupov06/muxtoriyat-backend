@@ -18,20 +18,19 @@ public class ReactionDTO implements Serializable {
 
     private String deviceId;
 
-    private ReactionType reactionType;
+    private Long targetId;
 
-    private ArticleDTO article;
+    private ReactionType reactionType;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReactionDTO)) {
+        if (!(o instanceof ReactionDTO reactionDTO)) {
             return false;
         }
 
-        ReactionDTO reactionDTO = (ReactionDTO) o;
         if (this.id == null) {
             return false;
         }
@@ -49,8 +48,8 @@ public class ReactionDTO implements Serializable {
         return "ReactionDTO{" +
             "id=" + getId() +
             ", deviceId='" + getDeviceId() + "'" +
+            ", targetId=" + getTargetId() +
             ", reactionType='" + getReactionType() + "'" +
-            ", article=" + getArticle() +
             "}";
     }
 }

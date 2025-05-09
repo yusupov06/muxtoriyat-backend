@@ -25,11 +25,11 @@ public class SourceViewDTO implements Serializable {
 
     private FileViewDTO file;
 
-    private int views;
+    private long views;
 
-    private int likes;
+    private long likes;
 
-    private int disLikes;
+    private long disLikes;
 
     @Override
     public boolean equals(Object o) {

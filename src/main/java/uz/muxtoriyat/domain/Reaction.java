@@ -1,6 +1,5 @@
 package uz.muxtoriyat.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import lombok.Getter;
@@ -28,13 +27,12 @@ public class Reaction implements Serializable {
     @Column(name = "device_id")
     private String deviceId;
 
+    @Column(name = "target_id")
+    private Long targetId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "reaction_type")
     private ReactionType reactionType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "category" }, allowSetters = true)
-    private Article article;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -48,13 +46,13 @@ public class Reaction implements Serializable {
         return this;
     }
 
-    public Reaction reactionType(ReactionType reactionType) {
-        this.setReactionType(reactionType);
+    public Reaction targetId(Long targetId) {
+        this.setTargetId(targetId);
         return this;
     }
 
-    public Reaction article(Article article) {
-        this.setArticle(article);
+    public Reaction reactionType(ReactionType reactionType) {
+        this.setReactionType(reactionType);
         return this;
     }
 
@@ -83,6 +81,7 @@ public class Reaction implements Serializable {
         return "Reaction{" +
             "id=" + getId() +
             ", deviceId='" + getDeviceId() + "'" +
+            ", targetId=" + getTargetId() +
             ", reactionType='" + getReactionType() + "'" +
             "}";
     }

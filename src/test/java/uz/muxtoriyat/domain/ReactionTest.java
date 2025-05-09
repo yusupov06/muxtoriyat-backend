@@ -1,7 +1,6 @@
 package uz.muxtoriyat.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static uz.muxtoriyat.domain.ArticleTestSamples.*;
 import static uz.muxtoriyat.domain.ReactionTestSamples.*;
 
 import org.junit.jupiter.api.Test;
@@ -21,17 +20,5 @@ class ReactionTest {
 
         reaction2 = getReactionSample2();
         assertThat(reaction1).isNotEqualTo(reaction2);
-    }
-
-    @Test
-    void articleTest() {
-        Reaction reaction = getReactionRandomSampleGenerator();
-        Article articleBack = getArticleRandomSampleGenerator();
-
-        reaction.setArticle(articleBack);
-        assertThat(reaction.getArticle()).isEqualTo(articleBack);
-
-        reaction.article(null);
-        assertThat(reaction.getArticle()).isNull();
     }
 }

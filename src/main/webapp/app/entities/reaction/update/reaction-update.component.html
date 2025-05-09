@@ -21,28 +21,16 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="field_targetId" jhiTranslate="muxtoriyatApp.reaction.targetId">Target Id</label>
+          <input type="number" class="form-control" name="targetId" id="field_targetId" data-cy="targetId" formControlName="targetId" />
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="field_reactionType" jhiTranslate="muxtoriyatApp.reaction.reactionType">Reaction Type</label>
           <select class="form-control" name="reactionType" formControlName="reactionType" id="field_reactionType" data-cy="reactionType">
             <option [ngValue]="null">{{ 'muxtoriyatApp.ReactionType.null' | translate }}</option>
             @for (reactionType of reactionTypeValues; track $index) {
               <option [value]="reactionType">{{ 'muxtoriyatApp.ReactionType.' + reactionType | translate }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_article" jhiTranslate="muxtoriyatApp.reaction.article">Article</label>
-          <select
-            class="form-control"
-            id="field_article"
-            data-cy="article"
-            name="article"
-            formControlName="article"
-            [compareWith]="compareArticle"
-          >
-            <option [ngValue]="null"></option>
-            @for (articleOption of articlesSharedCollection; track $index) {
-              <option [ngValue]="articleOption">{{ articleOption.id }}</option>
             }
           </select>
         </div>

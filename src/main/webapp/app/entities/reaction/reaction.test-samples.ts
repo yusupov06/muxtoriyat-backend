@@ -1,17 +1,20 @@
 import { IReaction, NewReaction } from './reaction.model';
 
 export const sampleWithRequiredData: IReaction = {
-  id: 16739,
+  id: 25789,
 };
 
 export const sampleWithPartialData: IReaction = {
-  id: 1661,
-  reactionType: 'LIKE',
+  id: 14400,
+  deviceId: 'around gee emulsify',
+  targetId: 16199,
+  reactionType: 'DISLIKE',
 };
 
 export const sampleWithFullData: IReaction = {
-  id: 14400,
-  deviceId: 'around gee emulsify',
+  id: 7097,
+  deviceId: 'although hourly',
+  targetId: 10958,
   reactionType: 'LIKE',
 };
 

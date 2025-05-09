@@ -1,14 +1,18 @@
 package uz.muxtoriyat.service.impl;
 
+import jakarta.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.domain.Reaction;
+import uz.muxtoriyat.domain.enumeration.ReactionType;
 import uz.muxtoriyat.repository.ReactionRepository;
 import uz.muxtoriyat.service.ReactionService;
 import uz.muxtoriyat.service.dto.ReactionDTO;
+import uz.muxtoriyat.service.dto.request.CreateReactionRequest;
 import uz.muxtoriyat.service.mapper.ReactionMapper;
 
 /**
@@ -27,6 +31,42 @@ public class ReactionServiceImpl implements ReactionService {
     public ReactionServiceImpl(ReactionRepository reactionRepository, ReactionMapper reactionMapper) {
         this.reactionRepository = reactionRepository;
         this.reactionMapper = reactionMapper;
+    }
+
+    @Override
+    public Optional<ReactionDTO> createReaction(CreateReactionRequest request) {
+        if (Objects.isNull(request) || Objects.isNull(request.getTargetId()) || Objects.isNull(request.getReactionType())) {
+            LOG.warn("Create Reaction with null parameters");
+            return Optional.empty();
+        }
+
+        ReactionDTO reaction = null;
+
+        if (request.getState()) {
+            LOG.warn("Create Reaction: {}", request);
+            ReactionDTO reactionDTO = new ReactionDTO();
+            reactionDTO.setReactionType(request.getReactionType());
+            reactionDTO.setTargetId(request.getTargetId());
+            reaction = save(reactionDTO);
+        } else {
+            Optional<ReactionDTO> optional = getFirstByReactionTypeAndTargetId(request.getReactionType(), request.getTargetId());
+            if (optional.isPresent()) {
+                reaction = optional.orElseThrow();
+                delete(reaction.getId());
+            }
+        }
+
+        return Optional.ofNullable(reaction);
+    }
+
+    private void deleteFirstByReactionTypeAndTargetId(ReactionType reactionType, Long targetId) {
+        reactionRepository.deleteFirstByTargetIdAndReactionType(targetId, reactionType);
+    }
+
+    private Optional<ReactionDTO> getFirstByReactionTypeAndTargetId(ReactionType reactionType, @NotNull Long targetId) {
+        return Optional.ofNullable(reactionRepository.findFirstByTargetIdAndReactionType(targetId, reactionType)).map(
+            reactionMapper::toDto
+        );
     }
 
     @Override

@@ -10,6 +10,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "targetId",
+      "fieldType": "Long"
+    },
+    {
       "fieldName": "reactionType",
       "fieldType": "ReactionType",
       "fieldValues": "LIKE,DISLIKE"
@@ -17,14 +21,7 @@
   ],
   "jpaMetamodelFiltering": true,
   "name": "Reaction",
-  "relationships": [
-    {
-      "otherEntityName": "article",
-      "relationshipName": "article",
-      "relationshipSide": "left",
-      "relationshipType": "many-to-one"
-    }
-  ],
+  "relationships": [],
   "searchEngine": "no",
   "service": "serviceImpl"
 }

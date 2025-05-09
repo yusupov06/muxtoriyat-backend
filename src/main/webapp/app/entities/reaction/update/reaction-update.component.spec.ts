@@ -4,8 +4,6 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, from, of } from 'rxjs';
 
-import { IArticle } from 'app/entities/article/article.model';
-import { ArticleService } from 'app/entities/article/service/article.service';
 import { ReactionService } from '../service/reaction.service';
 import { IReaction } from '../reaction.model';
 import { ReactionFormService } from './reaction-form.service';
@@ -18,7 +16,6 @@ describe('Reaction Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let reactionFormService: ReactionFormService;
   let reactionService: ReactionService;
-  let articleService: ArticleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,43 +38,17 @@ describe('Reaction Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     reactionFormService = TestBed.inject(ReactionFormService);
     reactionService = TestBed.inject(ReactionService);
-    articleService = TestBed.inject(ArticleService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Article query and add missing value', () => {
-      const reaction: IReaction = { id: 456 };
-      const article: IArticle = { id: 27308 };
-      reaction.article = article;
-
-      const articleCollection: IArticle[] = [{ id: 4244 }];
-      jest.spyOn(articleService, 'query').mockReturnValue(of(new HttpResponse({ body: articleCollection })));
-      const additionalArticles = [article];
-      const expectedCollection: IArticle[] = [...additionalArticles, ...articleCollection];
-      jest.spyOn(articleService, 'addArticleToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ reaction });
-      comp.ngOnInit();
-
-      expect(articleService.query).toHaveBeenCalled();
-      expect(articleService.addArticleToCollectionIfMissing).toHaveBeenCalledWith(
-        articleCollection,
-        ...additionalArticles.map(expect.objectContaining),
-      );
-      expect(comp.articlesSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const reaction: IReaction = { id: 456 };
-      const article: IArticle = { id: 26085 };
-      reaction.article = article;
 
       activatedRoute.data = of({ reaction });
       comp.ngOnInit();
 
-      expect(comp.articlesSharedCollection).toContain(article);
       expect(comp.reaction).toEqual(reaction);
     });
   });
@@ -147,18 +118,6 @@ describe('Reaction Management Update Component', () => {
       expect(reactionService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Compare relationships', () => {
-    describe('compareArticle', () => {
-      it('Should forward to articleService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(articleService, 'compareArticle');
-        comp.compareArticle(entity, entity2);
-        expect(articleService.compareArticle).toHaveBeenCalledWith(entity, entity2);
-      });
     });
   });
 });

@@ -76,8 +76,8 @@ class ReactionCriteriaTest {
     private static void setAllFilters(ReactionCriteria reactionCriteria) {
         reactionCriteria.id();
         reactionCriteria.deviceId();
+        reactionCriteria.targetId();
         reactionCriteria.reactionType();
-        reactionCriteria.articleId();
         reactionCriteria.distinct();
     }
 
@@ -86,8 +86,8 @@ class ReactionCriteriaTest {
             criteria ->
                 condition.apply(criteria.getId()) &&
                 condition.apply(criteria.getDeviceId()) &&
+                condition.apply(criteria.getTargetId()) &&
                 condition.apply(criteria.getReactionType()) &&
-                condition.apply(criteria.getArticleId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
         );
@@ -98,8 +98,8 @@ class ReactionCriteriaTest {
             criteria ->
                 condition.apply(criteria.getId(), copy.getId()) &&
                 condition.apply(criteria.getDeviceId(), copy.getDeviceId()) &&
+                condition.apply(criteria.getTargetId(), copy.getTargetId()) &&
                 condition.apply(criteria.getReactionType(), copy.getReactionType()) &&
-                condition.apply(criteria.getArticleId(), copy.getArticleId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"
         );

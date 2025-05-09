@@ -1,12 +1,16 @@
 package uz.muxtoriyat.service;
 
 import java.util.Optional;
+import uz.muxtoriyat.domain.enumeration.ReactionType;
 import uz.muxtoriyat.service.dto.ReactionDTO;
+import uz.muxtoriyat.service.dto.request.CreateReactionRequest;
 
 /**
  * Service Interface for managing {@link uz.muxtoriyat.domain.Reaction}.
  */
 public interface ReactionService {
+    Optional<ReactionDTO> createReaction(CreateReactionRequest request);
+
     /**
      * Save a reaction.
      *

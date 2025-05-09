@@ -21,8 +21,8 @@ describe('Reaction Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             deviceId: expect.any(Object),
+            targetId: expect.any(Object),
             reactionType: expect.any(Object),
-            article: expect.any(Object),
           }),
         );
       });
@@ -34,8 +34,8 @@ describe('Reaction Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             deviceId: expect.any(Object),
+            targetId: expect.any(Object),
             reactionType: expect.any(Object),
-            article: expect.any(Object),
           }),
         );
       });

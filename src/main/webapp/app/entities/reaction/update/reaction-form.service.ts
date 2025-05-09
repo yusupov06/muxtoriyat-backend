@@ -19,8 +19,8 @@ type ReactionFormDefaults = Pick<NewReaction, 'id'>;
 type ReactionFormGroupContent = {
   id: FormControl<IReaction['id'] | NewReaction['id']>;
   deviceId: FormControl<IReaction['deviceId']>;
+  targetId: FormControl<IReaction['targetId']>;
   reactionType: FormControl<IReaction['reactionType']>;
-  article: FormControl<IReaction['article']>;
 };
 
 export type ReactionFormGroup = FormGroup<ReactionFormGroupContent>;
@@ -41,8 +41,8 @@ export class ReactionFormService {
         },
       ),
       deviceId: new FormControl(reactionRawValue.deviceId),
+      targetId: new FormControl(reactionRawValue.targetId),
       reactionType: new FormControl(reactionRawValue.reactionType),
-      article: new FormControl(reactionRawValue.article),
     });
   }
 

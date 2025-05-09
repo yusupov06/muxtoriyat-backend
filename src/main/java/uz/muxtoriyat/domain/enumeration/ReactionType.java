@@ -5,5 +5,6 @@ package uz.muxtoriyat.domain.enumeration;
  */
 public enum ReactionType {
     LIKE,
+    VIEW,
     DISLIKE,
 }

@@ -19,19 +19,15 @@
           <dd>
             <span>{{ reactionRef.deviceId }}</span>
           </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.reaction.targetId">Target Id</span></dt>
+          <dd>
+            <span>{{ reactionRef.targetId }}</span>
+          </dd>
           <dt><span jhiTranslate="muxtoriyatApp.reaction.reactionType">Reaction Type</span></dt>
           <dd>
             <span [jhiTranslate]="'muxtoriyatApp.ReactionType.' + (reactionRef.reactionType ?? 'null')">{{
               { null: '', LIKE: 'LIKE', DISLIKE: 'DISLIKE' }[reactionRef.reactionType ?? 'null']
             }}</span>
-          </dd>
-          <dt><span jhiTranslate="muxtoriyatApp.reaction.article">Article</span></dt>
-          <dd>
-            @if (reaction()!.article) {
-              <div>
-                <a [routerLink]="['/article', reaction()!.article?.id, 'view']">{{ reactionRef.article?.id }}</a>
-              </div>
-            }
           </dd>
         </dl>
 

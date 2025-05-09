@@ -1,5 +1,6 @@
 package uz.muxtoriyat.web.rest;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -17,6 +18,7 @@ import uz.muxtoriyat.service.ReactionQueryService;
 import uz.muxtoriyat.service.ReactionService;
 import uz.muxtoriyat.service.criteria.ReactionCriteria;
 import uz.muxtoriyat.service.dto.ReactionDTO;
+import uz.muxtoriyat.service.dto.request.CreateReactionRequest;
 import uz.muxtoriyat.web.rest.errors.BadRequestAlertException;
 
 /**
@@ -47,6 +49,12 @@ public class ReactionResource {
         this.reactionService = reactionService;
         this.reactionRepository = reactionRepository;
         this.reactionQueryService = reactionQueryService;
+    }
+
+    @PostMapping("/react")
+    public ResponseEntity<ReactionDTO> react(@Valid @RequestBody CreateReactionRequest request) {
+        Optional<ReactionDTO> reaction = reactionService.createReaction(request);
+        return reaction.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**

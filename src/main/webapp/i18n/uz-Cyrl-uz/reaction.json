@@ -19,8 +19,8 @@
       },
       "id": "ID",
       "deviceId": "Device Id",
-      "reactionType": "Reaction Type",
-      "article": "Article"
+      "targetId": "Target Id",
+      "reactionType": "Reaction Type"
     }
   }
 }

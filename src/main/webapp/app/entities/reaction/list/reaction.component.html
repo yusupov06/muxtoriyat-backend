@@ -49,16 +49,17 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="reactionType">
+            <th scope="col" jhiSortBy="targetId">
               <div class="d-flex">
-                <span jhiTranslate="muxtoriyatApp.reaction.reactionType">Reaction Type</span>
+                <span jhiTranslate="muxtoriyatApp.reaction.targetId">Target Id</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="article.id">
+            <th scope="col" jhiSortBy="reactionType">
               <div class="d-flex">
-                <span jhiTranslate="muxtoriyatApp.reaction.article">Article</span>
+                <span jhiTranslate="muxtoriyatApp.reaction.reactionType">Reaction Type</span>
+
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -72,15 +73,9 @@
                 <a [routerLink]="['/reaction', reaction.id, 'view']">{{ reaction.id }}</a>
               </td>
               <td>{{ reaction.deviceId }}</td>
+              <td>{{ reaction.targetId }}</td>
               <td [jhiTranslate]="'muxtoriyatApp.ReactionType.' + (reaction.reactionType ?? 'null')">
                 {{ { null: '', LIKE: 'LIKE', DISLIKE: 'DISLIKE' }[reaction.reactionType ?? 'null'] }}
-              </td>
-              <td>
-                @if (reaction.article) {
-                  <div>
-                    <a [routerLink]="['/article', reaction.article.id, 'view']">{{ reaction.article.id }}</a>
-                  </div>
-                }
               </td>
               <td class="text-end">
                 <div class="btn-group">

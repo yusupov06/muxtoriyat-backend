@@ -1,6 +1,5 @@
 package uz.muxtoriyat.service;
 
-import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,13 +77,11 @@ public class ReactionQueryService extends QueryService<Reaction> {
             if (criteria.getDeviceId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDeviceId(), Reaction_.deviceId));
             }
+            if (criteria.getTargetId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTargetId(), Reaction_.targetId));
+            }
             if (criteria.getReactionType() != null) {
                 specification = specification.and(buildSpecification(criteria.getReactionType(), Reaction_.reactionType));
-            }
-            if (criteria.getArticleId() != null) {
-                specification = specification.and(
-                    buildSpecification(criteria.getArticleId(), root -> root.join(Reaction_.article, JoinType.LEFT).get(Article_.id))
-                );
             }
         }
         return specification;

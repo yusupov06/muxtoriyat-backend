@@ -9,6 +9,7 @@ import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.repository.SourceRepository;
 import uz.muxtoriyat.service.SourceService;
 import uz.muxtoriyat.service.dto.SourceDTO;
+import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 import uz.muxtoriyat.service.mapper.SourceMapper;
 
 /**
@@ -65,6 +66,11 @@ public class SourceServiceImpl implements SourceService {
     public Optional<SourceDTO> findOne(Long id) {
         LOG.debug("Request to get Source : {}", id);
         return sourceRepository.findById(id).map(sourceMapper::toDto);
+    }
+
+    @Override
+    public Optional<SourceViewDTO> findOneAsView(Long id) {
+        return sourceRepository.findById(id).map(sourceMapper::toViewDto);
     }
 
     @Override

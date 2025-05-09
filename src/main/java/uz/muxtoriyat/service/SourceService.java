@@ -2,6 +2,7 @@ package uz.muxtoriyat.service;
 
 import java.util.Optional;
 import uz.muxtoriyat.service.dto.SourceDTO;
+import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 
 /**
  * Service Interface for managing {@link uz.muxtoriyat.domain.Source}.
@@ -38,6 +39,8 @@ public interface SourceService {
      * @return the entity.
      */
     Optional<SourceDTO> findOne(Long id);
+
+    Optional<SourceViewDTO> findOneAsView(Long id);
 
     /**
      * Delete the "id" source.

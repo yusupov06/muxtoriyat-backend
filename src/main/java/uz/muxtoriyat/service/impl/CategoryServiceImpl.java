@@ -9,6 +9,7 @@ import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.repository.CategoryRepository;
 import uz.muxtoriyat.service.CategoryService;
 import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.view.CategoryViewDTO;
 import uz.muxtoriyat.service.mapper.CategoryMapper;
 
 /**
@@ -65,6 +66,11 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<CategoryDTO> findOne(Long id) {
         LOG.debug("Request to get Category : {}", id);
         return categoryRepository.findById(id).map(categoryMapper::toDto);
+    }
+
+    @Override
+    public Optional<CategoryViewDTO> findOneAsView(Long id) {
+        return categoryRepository.findById(id).map(categoryMapper::toViewDto);
     }
 
     @Override

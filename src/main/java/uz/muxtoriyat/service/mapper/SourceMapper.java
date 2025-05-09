@@ -9,6 +9,7 @@ import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.service.dto.CategoryDTO;
 import uz.muxtoriyat.service.dto.FileDTO;
 import uz.muxtoriyat.service.dto.SourceDTO;
+import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 
 /**
  * Mapper for the entity {@link Source} and its DTO {@link SourceDTO}.
@@ -38,4 +39,6 @@ public interface SourceMapper extends EntityMapper<SourceDTO, Source> {
     @Mapping(target = "description", source = "description")
     @Mapping(target = "url", source = "url")
     FileDTO mapToFileDTO(File file);
+
+    SourceViewDTO toViewDto(Source source);
 }

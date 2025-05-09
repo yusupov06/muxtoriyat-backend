@@ -3,6 +3,7 @@ package uz.muxtoriyat.service.mapper;
 import org.mapstruct.*;
 import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.view.CategoryViewDTO;
 
 /**
  * Mapper for the entity {@link Category} and its DTO {@link CategoryDTO}.
@@ -16,4 +17,6 @@ public interface CategoryMapper extends EntityMapper<CategoryDTO, Category> {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     CategoryDTO toDtoCategoryId(Category category);
+
+    CategoryViewDTO toViewDto(Category category);
 }

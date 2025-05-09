@@ -2,6 +2,7 @@ package uz.muxtoriyat.service;
 
 import java.util.Optional;
 import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.view.CategoryViewDTO;
 
 /**
  * Service Interface for managing {@link uz.muxtoriyat.domain.Category}.
@@ -45,4 +46,6 @@ public interface CategoryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<CategoryViewDTO> findOneAsView(Long id);
 }

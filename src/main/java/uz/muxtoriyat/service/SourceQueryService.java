@@ -14,6 +14,7 @@ import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.repository.SourceRepository;
 import uz.muxtoriyat.service.criteria.SourceCriteria;
 import uz.muxtoriyat.service.dto.SourceDTO;
+import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 import uz.muxtoriyat.service.mapper.SourceMapper;
 
 /**
@@ -48,6 +49,13 @@ public class SourceQueryService extends QueryService<Source> {
         LOG.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Source> specification = createSpecification(criteria);
         return sourceRepository.findAll(specification, page).map(sourceMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<SourceViewDTO> findByCriteriaAsView(SourceCriteria criteria, Pageable page) {
+        LOG.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<Source> specification = createSpecification(criteria);
+        return sourceRepository.findAll(specification, page).map(sourceMapper::toViewDto);
     }
 
     /**

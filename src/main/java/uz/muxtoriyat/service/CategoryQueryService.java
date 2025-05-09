@@ -14,6 +14,7 @@ import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.repository.CategoryRepository;
 import uz.muxtoriyat.service.criteria.CategoryCriteria;
 import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.view.CategoryViewDTO;
 import uz.muxtoriyat.service.mapper.CategoryMapper;
 
 /**
@@ -48,6 +49,13 @@ public class CategoryQueryService extends QueryService<Category> {
         LOG.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Category> specification = createSpecification(criteria);
         return categoryRepository.findAll(specification, page).map(categoryMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CategoryViewDTO> findByCriteriaAsView(CategoryCriteria criteria, Pageable page) {
+        LOG.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<Category> specification = createSpecification(criteria);
+        return categoryRepository.findAll(specification, page).map(categoryMapper::toViewDto);
     }
 
     /**

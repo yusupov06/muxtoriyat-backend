@@ -9,6 +9,7 @@ import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.service.dto.CategoryDTO;
 import uz.muxtoriyat.service.dto.FileDTO;
 import uz.muxtoriyat.service.dto.SourceDTO;
+import uz.muxtoriyat.service.dto.view.FileViewDTO;
 import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 
 /**
@@ -40,5 +41,16 @@ public interface SourceMapper extends EntityMapper<SourceDTO, Source> {
     @Mapping(target = "url", source = "url")
     FileDTO mapToFileDTO(File file);
 
-    SourceViewDTO toViewDto(Source source);
+    default FileViewDTO getFileAsView(Source source) {
+        if (Objects.isNull(source) || Objects.isNull(source.getFiles()) || source.getFiles().isEmpty()) {
+            return null;
+        }
+        List<File> files = source.getFiles();
+        return mapToFileViewDTO(files.get(0));
+    }
+
+    FileViewDTO mapToFileViewDTO(File file);
+
+    @Mapping(target = "file", expression = "java(getFileAsView(s))")
+    SourceViewDTO toViewDto(Source s);
 }

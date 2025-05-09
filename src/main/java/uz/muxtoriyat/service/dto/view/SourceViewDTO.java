@@ -1,12 +1,11 @@
 package uz.muxtoriyat.service.dto.view;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import uz.muxtoriyat.service.dto.CategoryDTO;
-import uz.muxtoriyat.service.dto.FileDTO;
 
 /**
  * A DTO for the {@link uz.muxtoriyat.domain.Source} entity.
@@ -30,6 +29,8 @@ public class SourceViewDTO implements Serializable {
     private long likes;
 
     private long disLikes;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Override
     public boolean equals(Object o) {

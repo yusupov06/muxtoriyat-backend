@@ -1,11 +1,11 @@
-id;device_id;target_id;reaction_type
-1;duh team;25666;LIKE
-2;gape gosh;10580;LIKE
-3;impartial clear-cut;3238;LIKE
-4;crackle until;11719;DISLIKE
-5;boohoo meander than;19708;DISLIKE
-6;oh mysteriously communicate;1344;DISLIKE
-7;whose dark;13351;LIKE
-8;good;20211;DISLIKE
-9;worth ha;17225;DISLIKE
-10;less address;10458;DISLIKE
+id;device_id;target_id;reaction_type;created_by
+1;duh team;25666;LIKE;admin
+2;gape gosh;10580;LIKE;admin;
+3;impartial clear-cut;3238;LIKE;admin
+4;crackle until;11719;DISLIKE;admin
+5;boohoo meander than;19708;DISLIKE;admin
+6;oh mysteriously communicate;1344;DISLIKE;admin
+7;whose dark;13351;LIKE;admin
+8;good;20211;DISLIKE;admin
+9;worth ha;17225;DISLIKE;admin
+10;less address;10458;DISLIKE;admin

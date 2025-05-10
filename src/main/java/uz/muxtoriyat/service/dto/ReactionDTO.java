@@ -12,7 +12,7 @@ import uz.muxtoriyat.domain.enumeration.ReactionType;
 @Setter
 @Getter
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ReactionDTO implements Serializable {
+public class ReactionDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

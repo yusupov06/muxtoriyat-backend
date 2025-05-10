@@ -14,7 +14,7 @@ import uz.muxtoriyat.domain.enumeration.ReactionType;
 @Entity
 @Table(name = "reaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Reaction implements Serializable {
+public class Reaction extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

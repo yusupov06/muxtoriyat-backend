@@ -17,7 +17,8 @@ public class ArticleViewServiceImpl implements ArticleViewService {
 
     @Override
     public List<ArticleViewDTO> fillReactions(List<ArticleViewDTO> articleViews) {
-        return List.of();
+        articleViews.forEach(this::fillReactions);
+        return articleViews;
     }
 
     private void fillReactions(ArticleViewDTO articleViewDTO) {

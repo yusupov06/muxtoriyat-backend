@@ -72,6 +72,7 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/reactions/react")).permitAll()
                     .requestMatchers(mvc.pattern("/api/view/articles")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/view/articles/**")).permitAll()
                     .requestMatchers(mvc.pattern("/api/view/categories")).permitAll()
                     .requestMatchers(mvc.pattern("/api/view/sources")).permitAll()
                     .requestMatchers(mvc.pattern("/api/**")).authenticated()

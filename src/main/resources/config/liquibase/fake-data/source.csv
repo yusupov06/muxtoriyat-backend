@@ -1,11 +1,11 @@
-id;name;description
-1;relative unless;beside
-2;for finally;following
-3;selfishly strange mysterious;freely profitable lampoon
-4;front boo;ha
-5;insistent phooey;whether encode ingratiate
-6;excellent;swing
-7;kindly wombat what;finally
-8;sharply the coolly;emerge
-9;savour worth ick;beside
-10;hence;beneath sympathetically
+id;name;description;created_by
+1;relative unless;beside;admin
+2;for finally;following;admin
+3;selfishly strange mysterious;freely profitable lampoon;admin
+4;front boo;ha;admin
+5;insistent phooey;whether encode ingratiate;admin
+6;excellent;swing;admin
+7;kindly wombat what;finally;admin
+8;sharply the coolly;emerge;admin
+9;savour worth ick;beside;admin
+10;hence;beneath sympathetically;admin

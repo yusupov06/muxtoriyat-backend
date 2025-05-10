@@ -1,10 +1,12 @@
 package uz.muxtoriyat.service.dto.view;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import uz.muxtoriyat.service.dto.AbstractAuditingDTO;
 import uz.muxtoriyat.service.dto.CategoryDTO;
 import uz.muxtoriyat.service.dto.FileDTO;
@@ -16,7 +18,7 @@ import uz.muxtoriyat.service.dto.FileDTO;
 @Getter
 @Setter
 @ToString
-public class SourceViewDTO extends AbstractAuditingDTO implements Serializable {
+public class SourceViewDTO implements Serializable {
 
     private Long id;
 
@@ -31,6 +33,9 @@ public class SourceViewDTO extends AbstractAuditingDTO implements Serializable {
     private long likes;
 
     private long disLikes;
+
+    @ReadOnlyProperty
+    private Instant createdDate = Instant.now();
 
     @Override
     public boolean equals(Object o) {

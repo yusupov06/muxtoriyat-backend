@@ -3,17 +3,19 @@ package uz.muxtoriyat.service.dto.view;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import uz.muxtoriyat.service.dto.AbstractAuditingDTO;
 
 @Setter
 @Getter
 @ToString
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ArticleViewDTO extends AbstractAuditingDTO implements Serializable {
+public class ArticleViewDTO implements Serializable {
 
     private Long id;
 
@@ -37,6 +39,9 @@ public class ArticleViewDTO extends AbstractAuditingDTO implements Serializable 
     private long likes;
 
     private long disLikes;
+
+    @ReadOnlyProperty
+    private Instant createdDate = Instant.now();
 
     @Override
     public boolean equals(Object o) {

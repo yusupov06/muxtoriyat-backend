@@ -21,11 +21,12 @@ public class ArticleViewServiceImpl implements ArticleViewService {
         return articleViews;
     }
 
-    private void fillReactions(ArticleViewDTO articleViewDTO) {
+    public ArticleViewDTO fillReactions(ArticleViewDTO articleViewDTO) {
         Long likes = reactionCounterService.countReactions(articleViewDTO.getId(), ReactionType.LIKE);
         articleViewDTO.setLikes(safeParse(likes));
         Long views = reactionCounterService.countReactions(articleViewDTO.getId(), ReactionType.VIEW);
         articleViewDTO.setViews(safeParse(views));
+        return articleViewDTO;
     }
 
     private long safeParse(Long likes) {

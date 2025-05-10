@@ -78,6 +78,7 @@ public class ArticleViewResource {
     public ResponseEntity<ArticleViewDTO> getArticle(@PathVariable("id") Long id) {
         LOG.debug("REST request to get Article : {}", id);
         Optional<ArticleViewDTO> articleDTO = articleService.findOneAsView(id);
+        articleDTO.ifPresent(articleViewService::fillReactions);
         return ResponseUtil.wrapOrNotFound(articleDTO);
     }
 }

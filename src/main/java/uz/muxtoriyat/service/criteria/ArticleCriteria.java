@@ -52,6 +52,8 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     private LongFilter categoryId;
 
+    private LongFilter authorId;
+
     private Boolean distinct;
 
     public ArticleCriteria() {}
@@ -63,6 +65,7 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.description = other.optionalDescription().map(StringFilter::copy).orElse(null);
         this.visibility = other.optionalVisibility().map(VisibilityTypeFilter::copy).orElse(null);
         this.categoryId = other.optionalCategoryId().map(LongFilter::copy).orElse(null);
+        this.authorId = other.optionalAuthorId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -185,6 +188,25 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.categoryId = categoryId;
     }
 
+    public LongFilter getAuthorId() {
+        return authorId;
+    }
+
+    public Optional<LongFilter> optionalAuthorId() {
+        return Optional.ofNullable(authorId);
+    }
+
+    public LongFilter authorId() {
+        if (authorId == null) {
+            setAuthorId(new LongFilter());
+        }
+        return authorId;
+    }
+
+    public void setAuthorId(LongFilter authorId) {
+        this.authorId = authorId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -220,13 +242,14 @@ public class ArticleCriteria implements Serializable, Criteria {
             Objects.equals(description, that.description) &&
             Objects.equals(visibility, that.visibility) &&
             Objects.equals(categoryId, that.categoryId) &&
+            Objects.equals(authorId, that.authorId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, title, description, visibility, categoryId, distinct);
+        return Objects.hash(id, name, title, description, visibility, categoryId, authorId, distinct);
     }
 
     // prettier-ignore
@@ -239,6 +262,7 @@ public class ArticleCriteria implements Serializable, Criteria {
             optionalDescription().map(f -> "description=" + f + ", ").orElse("") +
             optionalVisibility().map(f -> "visibility=" + f + ", ").orElse("") +
             optionalCategoryId().map(f -> "categoryId=" + f + ", ").orElse("") +
+            optionalAuthorId().map(f -> "authorId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

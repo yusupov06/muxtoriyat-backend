@@ -102,6 +102,11 @@ public class ArticleQueryService extends QueryService<Article> {
                     buildSpecification(criteria.getCategoryId(), root -> root.join(Article_.category, JoinType.LEFT).get(Category_.id))
                 );
             }
+            if (criteria.getAuthorId() != null) {
+                specification = specification.and(
+                    buildSpecification(criteria.getAuthorId(), root -> root.join(Article_.author, JoinType.LEFT).get(User_.id))
+                );
+            }
         }
         return specification;
     }

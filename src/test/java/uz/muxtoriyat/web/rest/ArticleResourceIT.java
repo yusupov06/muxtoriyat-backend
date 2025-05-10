@@ -24,8 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
 import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Category;
+import uz.muxtoriyat.domain.User;
 import uz.muxtoriyat.domain.enumeration.VisibilityType;
 import uz.muxtoriyat.repository.ArticleRepository;
+import uz.muxtoriyat.repository.UserRepository;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 import uz.muxtoriyat.service.mapper.ArticleMapper;
 
@@ -68,6 +70,9 @@ class ArticleResourceIT {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -448,6 +453,28 @@ class ArticleResourceIT {
 
         // Get all the articleList where category equals to (categoryId + 1)
         defaultArticleShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByAuthorIsEqualToSomething() throws Exception {
+        User author;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
+            articleRepository.saveAndFlush(article);
+            author = UserResourceIT.createEntity();
+        } else {
+            author = TestUtil.findAll(em, User.class).get(0);
+        }
+        em.persist(author);
+        em.flush();
+        article.setAuthor(author);
+        articleRepository.saveAndFlush(article);
+        Long authorId = author.getId();
+        // Get all the articleList where author equals to authorId
+        defaultArticleShouldBeFound("authorId.equals=" + authorId);
+
+        // Get all the articleList where author equals to (authorId + 1)
+        defaultArticleShouldNotBeFound("authorId.equals=" + (authorId + 1));
     }
 
     private void defaultArticleFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {

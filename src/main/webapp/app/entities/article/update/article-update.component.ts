@@ -12,6 +12,8 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ICategory } from 'app/entities/category/category.model';
 import { CategoryService } from 'app/entities/category/service/category.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/service/user.service';
 import { VisibilityType } from 'app/entities/enumerations/visibility-type.model';
 import { ArticleService } from '../service/article.service';
 import { IArticle } from '../article.model';
@@ -46,12 +48,14 @@ export class ArticleUpdateComponent implements OnInit {
   visibilityTypeValues = Object.keys(VisibilityType);
 
   categoriesSharedCollection: ICategory[] = [];
+  usersSharedCollection: IUser[] = [];
 
   protected dataUtils = inject(DataUtils);
   protected eventManager = inject(EventManager);
   protected articleService = inject(ArticleService);
   protected articleFormService = inject(ArticleFormService);
   protected categoryService = inject(CategoryService);
+  protected userService = inject(UserService);
   protected elementRef = inject(ElementRef);
   protected activatedRoute = inject(ActivatedRoute);
 
@@ -59,6 +63,8 @@ export class ArticleUpdateComponent implements OnInit {
   editForm: ArticleFormGroup = this.articleFormService.createArticleFormGroup();
 
   compareCategory = (o1: ICategory | null, o2: ICategory | null): boolean => this.categoryService.compareCategory(o1, o2);
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ article }) => {
@@ -137,6 +143,7 @@ export class ArticleUpdateComponent implements OnInit {
       this.categoriesSharedCollection,
       article.category,
     );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, article.author);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -149,5 +156,11 @@ export class ArticleUpdateComponent implements OnInit {
         ),
       )
       .subscribe((categories: ICategory[]) => (this.categoriesSharedCollection = categories));
+
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.article?.author)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }

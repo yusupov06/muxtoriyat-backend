@@ -14,7 +14,7 @@ import uz.muxtoriyat.domain.enumeration.VisibilityType;
 @Setter
 @Getter
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ArticleDTO extends AbstractAuditingDTO implements Serializable {
+public class ArticleDTO implements Serializable {
 
     private Long id;
 
@@ -33,9 +33,11 @@ public class ArticleDTO extends AbstractAuditingDTO implements Serializable {
 
     private String imageContentType;
 
+    private VisibilityType visibility;
+
     private CategoryDTO category;
 
-    private VisibilityType visibility;
+    private UserDTO author;
 
     @Override
     public boolean equals(Object o) {
@@ -68,8 +70,9 @@ public class ArticleDTO extends AbstractAuditingDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", content='" + getContent() + "'" +
             ", image='" + getImage() + "'" +
+            ", visibility='" + getVisibility() + "'" +
             ", category=" + getCategory() +
-            ", visibility=" + getVisibility() +
+            ", author=" + getAuthor() +
             "}";
     }
 }

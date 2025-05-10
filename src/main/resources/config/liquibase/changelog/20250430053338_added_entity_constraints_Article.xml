@@ -16,5 +16,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="category"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="author_id"
+                                 baseTableName="article"
+                                 constraintName="fk_article__author_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"
+                                 />
     </changeSet>
 </databaseChangeLog>

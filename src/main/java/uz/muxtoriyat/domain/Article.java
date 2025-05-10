@@ -54,6 +54,9 @@ public class Article extends AbstractAuditingEntity<Long> implements Serializabl
     @JsonIgnoreProperties(value = { "parent" }, allowSetters = true)
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User author;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Article id(Long id) {
@@ -98,6 +101,11 @@ public class Article extends AbstractAuditingEntity<Long> implements Serializabl
 
     public Article visibility(VisibilityType visibility) {
         this.setVisibility(visibility);
+        return this;
+    }
+
+    public Article author(User user) {
+        this.setAuthor(user);
         return this;
     }
 

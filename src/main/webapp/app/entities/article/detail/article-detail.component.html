@@ -60,6 +60,10 @@
               </div>
             }
           </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.article.author">Author</span></dt>
+          <dd>
+            <span>{{ articleRef.author?.id }}</span>
+          </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

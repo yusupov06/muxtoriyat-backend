@@ -6,8 +6,10 @@ import { Subject, from, of } from 'rxjs';
 
 import { ICategory } from 'app/entities/category/category.model';
 import { CategoryService } from 'app/entities/category/service/category.service';
-import { ArticleService } from '../service/article.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/service/user.service';
 import { IArticle } from '../article.model';
+import { ArticleService } from '../service/article.service';
 import { ArticleFormService } from './article-form.service';
 
 import { ArticleUpdateComponent } from './article-update.component';
@@ -19,6 +21,7 @@ describe('Article Management Update Component', () => {
   let articleFormService: ArticleFormService;
   let articleService: ArticleService;
   let categoryService: CategoryService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,6 +45,7 @@ describe('Article Management Update Component', () => {
     articleFormService = TestBed.inject(ArticleFormService);
     articleService = TestBed.inject(ArticleService);
     categoryService = TestBed.inject(CategoryService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
@@ -69,15 +73,40 @@ describe('Article Management Update Component', () => {
       expect(comp.categoriesSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call User query and add missing value', () => {
+      const article: IArticle = { id: 456 };
+      const author: IUser = { id: 28619 };
+      article.author = author;
+
+      const userCollection: IUser[] = [{ id: 10330 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [author];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ article });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining),
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const article: IArticle = { id: 456 };
       const category: ICategory = { id: 20280 };
       article.category = category;
+      const author: IUser = { id: 16625 };
+      article.author = author;
 
       activatedRoute.data = of({ article });
       comp.ngOnInit();
 
       expect(comp.categoriesSharedCollection).toContain(category);
+      expect(comp.usersSharedCollection).toContain(author);
       expect(comp.article).toEqual(article);
     });
   });
@@ -158,6 +187,16 @@ describe('Article Management Update Component', () => {
         jest.spyOn(categoryService, 'compareCategory');
         comp.compareCategory(entity, entity2);
         expect(categoryService.compareCategory).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

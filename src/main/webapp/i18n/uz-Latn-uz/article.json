@@ -24,7 +24,8 @@
       "content": "Content",
       "image": "Image",
       "visibility": "Visibility",
-      "category": "Category"
+      "category": "Category",
+      "author": "Author"
     }
   }
 }

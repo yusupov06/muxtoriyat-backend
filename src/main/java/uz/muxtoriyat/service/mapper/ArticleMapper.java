@@ -1,6 +1,9 @@
 package uz.muxtoriyat.service.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.service.dto.ArticleDTO;

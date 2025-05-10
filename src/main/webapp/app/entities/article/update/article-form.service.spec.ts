@@ -27,6 +27,7 @@ describe('Article Form Service', () => {
             image: expect.any(Object),
             visibility: expect.any(Object),
             category: expect.any(Object),
+            author: expect.any(Object),
           }),
         );
       });
@@ -44,6 +45,7 @@ describe('Article Form Service', () => {
             image: expect.any(Object),
             visibility: expect.any(Object),
             category: expect.any(Object),
+            author: expect.any(Object),
           }),
         );
       });

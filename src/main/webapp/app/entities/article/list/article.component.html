@@ -92,6 +92,12 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="author.id">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.article.author">Author</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -122,6 +128,9 @@
                     <a [routerLink]="['/category', article.category.id, 'view']">{{ article.category.id }}</a>
                   </div>
                 }
+              </td>
+              <td>
+                {{ article.author?.id }}
               </td>
               <td class="text-end">
                 <div class="btn-group">

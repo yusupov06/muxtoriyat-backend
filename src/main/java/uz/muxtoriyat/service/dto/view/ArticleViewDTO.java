@@ -7,13 +7,13 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.AbstractAuditingDTO;
 
 @Setter
 @Getter
 @ToString
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ArticleViewDTO implements Serializable {
+public class ArticleViewDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

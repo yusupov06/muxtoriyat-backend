@@ -16,7 +16,7 @@ import uz.muxtoriyat.domain.enumeration.VisibilityType;
 @Entity
 @Table(name = "article")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Article implements Serializable {
+public class Article extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

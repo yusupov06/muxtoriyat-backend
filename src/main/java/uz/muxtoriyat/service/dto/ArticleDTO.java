@@ -14,7 +14,7 @@ import uz.muxtoriyat.domain.enumeration.VisibilityType;
 @Setter
 @Getter
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ArticleDTO implements Serializable {
+public class ArticleDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

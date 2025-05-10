@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "source")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Source implements Serializable {
+public class Source extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,6 @@
 package uz.muxtoriyat.service.dto;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 @Getter
 @Setter
-public class SourceDTO implements Serializable {
+public class SourceDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

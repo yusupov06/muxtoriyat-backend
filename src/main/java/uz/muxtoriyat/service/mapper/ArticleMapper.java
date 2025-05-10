@@ -8,6 +8,7 @@ import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 import uz.muxtoriyat.service.dto.CategoryDTO;
+import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
 import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 
 /**
@@ -24,4 +25,6 @@ public interface ArticleMapper extends EntityMapper<ArticleDTO, Article> {
     CategoryDTO toDtoCategoryId(Category category);
 
     ArticleViewDTO toViewDto(Article article);
+
+    ArticleBasicViewDTO toBasicViewDto(Article article);
 }

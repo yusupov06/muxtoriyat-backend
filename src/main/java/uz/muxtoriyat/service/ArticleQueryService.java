@@ -14,6 +14,7 @@ import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.repository.ArticleRepository;
 import uz.muxtoriyat.service.criteria.ArticleCriteria;
 import uz.muxtoriyat.service.dto.ArticleDTO;
+import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
 import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 import uz.muxtoriyat.service.mapper.ArticleMapper;
 
@@ -56,6 +57,13 @@ public class ArticleQueryService extends QueryService<Article> {
         LOG.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Article> specification = createSpecification(criteria);
         return articleRepository.findAll(specification, page).map(articleMapper::toViewDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ArticleBasicViewDTO> findByCriteriaAsBasicView(ArticleCriteria criteria, Pageable page) {
+        LOG.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<Article> specification = createSpecification(criteria);
+        return articleRepository.findAll(specification, page).map(articleMapper::toBasicViewDto);
     }
 
     /**

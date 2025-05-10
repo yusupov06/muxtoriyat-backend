@@ -9,13 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.ReadOnlyProperty;
-import uz.muxtoriyat.service.dto.AbstractAuditingDTO;
 
 @Setter
 @Getter
 @ToString
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ArticleViewDTO implements Serializable {
+public class ArticleBasicViewDTO implements Serializable {
 
     private Long id;
 
@@ -25,9 +24,6 @@ public class ArticleViewDTO implements Serializable {
     private String title;
 
     private String description;
-
-    @Lob
-    private String content;
 
     @Lob
     private byte[] image;
@@ -50,11 +46,11 @@ public class ArticleViewDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ArticleViewDTO)) {
+        if (!(o instanceof ArticleBasicViewDTO)) {
             return false;
         }
 
-        ArticleViewDTO articleDTO = (ArticleViewDTO) o;
+        ArticleBasicViewDTO articleDTO = (ArticleBasicViewDTO) o;
         if (this.id == null) {
             return false;
         }

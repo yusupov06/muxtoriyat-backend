@@ -20,6 +20,7 @@ import uz.muxtoriyat.service.ArticleQueryService;
 import uz.muxtoriyat.service.ArticleService;
 import uz.muxtoriyat.service.ArticleViewService;
 import uz.muxtoriyat.service.criteria.ArticleCriteria;
+import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
 import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 
 @RestController
@@ -43,16 +44,16 @@ public class ArticleViewResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<ArticleViewDTO>> getAllArticles(
+    public ResponseEntity<List<ArticleBasicViewDTO>> getAllArticles(
         ArticleCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         LOG.debug("REST request to get Articles by criteria: {}", criteria);
 
-        Page<ArticleViewDTO> page = articleQueryService.findByCriteriaAsView(criteria, pageable);
+        Page<ArticleBasicViewDTO> page = articleQueryService.findByCriteriaAsBasicView(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        List<ArticleViewDTO> content = page.getContent();
-        articleViewService.fillReactions(content);
+        List<ArticleBasicViewDTO> content = page.getContent();
+        articleViewService.fillBasicReactions(content);
         return ResponseEntity.ok().headers(headers).body(content);
     }
 

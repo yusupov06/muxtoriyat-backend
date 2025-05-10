@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uz.muxtoriyat.domain.enumeration.ReactionType;
 import uz.muxtoriyat.service.ArticleViewService;
 import uz.muxtoriyat.service.ReactionCounterService;
+import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
 import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 
 @Service
@@ -21,7 +22,21 @@ public class ArticleViewServiceImpl implements ArticleViewService {
         return articleViews;
     }
 
+    @Override
+    public List<ArticleBasicViewDTO> fillBasicReactions(List<ArticleBasicViewDTO> articleViews) {
+        articleViews.forEach(this::fillReactions);
+        return articleViews;
+    }
+
     public ArticleViewDTO fillReactions(ArticleViewDTO articleViewDTO) {
+        Long likes = reactionCounterService.countReactions(articleViewDTO.getId(), ReactionType.LIKE);
+        articleViewDTO.setLikes(safeParse(likes));
+        Long views = reactionCounterService.countReactions(articleViewDTO.getId(), ReactionType.VIEW);
+        articleViewDTO.setViews(safeParse(views));
+        return articleViewDTO;
+    }
+
+    public ArticleBasicViewDTO fillReactions(ArticleBasicViewDTO articleViewDTO) {
         Long likes = reactionCounterService.countReactions(articleViewDTO.getId(), ReactionType.LIKE);
         articleViewDTO.setLikes(safeParse(likes));
         Long views = reactionCounterService.countReactions(articleViewDTO.getId(), ReactionType.VIEW);

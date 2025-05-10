@@ -3,6 +3,7 @@
     "ReactionType": {
       "null": "",
       "LIKE": "LIKE",
+      "VIEW": "VIEW",
       "DISLIKE": "DISLIKE"
     }
   }

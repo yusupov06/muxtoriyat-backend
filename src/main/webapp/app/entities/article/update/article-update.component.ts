@@ -12,6 +12,7 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ICategory } from 'app/entities/category/category.model';
 import { CategoryService } from 'app/entities/category/service/category.service';
+import { VisibilityType } from 'app/entities/enumerations/visibility-type.model';
 import { ArticleService } from '../service/article.service';
 import { IArticle } from '../article.model';
 import { ArticleFormGroup, ArticleFormService } from './article-form.service';
@@ -42,6 +43,8 @@ export class ArticleUpdateComponent implements OnInit {
       ['clean'], // formatni tozalash
     ],
   };
+  visibilityTypeValues = Object.keys(VisibilityType);
+
   categoriesSharedCollection: ICategory[] = [];
 
   protected dataUtils = inject(DataUtils);

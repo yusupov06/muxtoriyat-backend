@@ -1,11 +1,11 @@
-id;name;title;description;content;image;image_content_type
-1;er early;vivaciously;what mature;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-2;supposing relative;oof woot;waist staid amongst;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-3;scarily mid yuck;venom foot;degrease;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-4;phooey ew chunder;sedately zebra;punctually;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-5;mantua agitated lively;throughout after forceful;sundae obsess psst;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-6;offset pull enrage;weird woefully now;requite;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-7;account;as since;unibody pish;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-8;impact word;hmph;giggle foot;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-9;wisecrack muscat;pension;phooey outflank unique;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
-10;circular per gladly;developing;bravely hygienic;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png
+id;name;title;description;content;image;image_content_type;visibility
+1;er early;vivaciously;what mature;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+2;oof incidentally;verve;gosh past raw;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+3;ack mockingly;accidentally yet minor;and brr yowza;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+4;fuss oh;eek;whoa following;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+5;aha mutate;yum especially barring;whereas worth between;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+6;unlearn;minus yahoo;sniveling;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;PUBLIC
+7;embalm phooey requite;account;as since;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+8;circa internalise;as anti hmph;giggle foot;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK
+9;phew;splurge;outlandish heartbeat;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;PUBLIC
+10;impact;great;sans signature for;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.png;image/png;BLANK

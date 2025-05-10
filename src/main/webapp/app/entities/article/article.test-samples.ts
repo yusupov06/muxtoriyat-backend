@@ -20,6 +20,7 @@ export const sampleWithFullData: IArticle = {
   content: '../fake-data/blob/hipster.txt',
   image: '../fake-data/blob/hipster.png',
   imageContentType: 'unknown',
+  visibility: 'PUBLIC',
 };
 
 export const sampleWithNewData: NewArticle = {

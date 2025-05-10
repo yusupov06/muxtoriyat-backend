@@ -25,6 +25,11 @@
     {
       "fieldName": "image",
       "fieldType": "ImageBlob"
+    },
+    {
+      "fieldName": "visibility",
+      "fieldType": "VisibilityType",
+      "fieldValues": "BLANK,PUBLIC"
     }
   ],
   "jpaMetamodelFiltering": true,

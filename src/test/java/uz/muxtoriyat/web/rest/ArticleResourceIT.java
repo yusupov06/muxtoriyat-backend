@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
 import uz.muxtoriyat.domain.Article;
 import uz.muxtoriyat.domain.Category;
+import uz.muxtoriyat.domain.enumeration.VisibilityType;
 import uz.muxtoriyat.repository.ArticleRepository;
 import uz.muxtoriyat.service.dto.ArticleDTO;
 import uz.muxtoriyat.service.mapper.ArticleMapper;
@@ -52,6 +53,9 @@ class ArticleResourceIT {
     private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
+
+    private static final VisibilityType DEFAULT_VISIBILITY = VisibilityType.BLANK;
+    private static final VisibilityType UPDATED_VISIBILITY = VisibilityType.PUBLIC;
 
     private static final String ENTITY_API_URL = "/api/articles";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -91,7 +95,8 @@ class ArticleResourceIT {
             .description(DEFAULT_DESCRIPTION)
             .content(DEFAULT_CONTENT)
             .image(DEFAULT_IMAGE)
-            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE)
+            .visibility(DEFAULT_VISIBILITY);
     }
 
     /**
@@ -107,7 +112,8 @@ class ArticleResourceIT {
             .description(UPDATED_DESCRIPTION)
             .content(UPDATED_CONTENT)
             .image(UPDATED_IMAGE)
-            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .visibility(UPDATED_VISIBILITY);
     }
 
     @BeforeEach
@@ -199,7 +205,8 @@ class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))))
+            .andExpect(jsonPath("$.[*].visibility").value(hasItem(DEFAULT_VISIBILITY.toString())));
     }
 
     @Test
@@ -219,7 +226,8 @@ class ArticleResourceIT {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
             .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.image").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE)));
+            .andExpect(jsonPath("$.image").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE)))
+            .andExpect(jsonPath("$.visibility").value(DEFAULT_VISIBILITY.toString()));
     }
 
     @Test
@@ -392,6 +400,36 @@ class ArticleResourceIT {
 
     @Test
     @Transactional
+    void getAllArticlesByVisibilityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where visibility equals to
+        defaultArticleFiltering("visibility.equals=" + DEFAULT_VISIBILITY, "visibility.equals=" + UPDATED_VISIBILITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByVisibilityIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where visibility in
+        defaultArticleFiltering("visibility.in=" + DEFAULT_VISIBILITY + "," + UPDATED_VISIBILITY, "visibility.in=" + UPDATED_VISIBILITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllArticlesByVisibilityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedArticle = articleRepository.saveAndFlush(article);
+
+        // Get all the articleList where visibility is not null
+        defaultArticleFiltering("visibility.specified=true", "visibility.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllArticlesByCategoryIsEqualToSomething() throws Exception {
         Category category;
         if (TestUtil.findAll(em, Category.class).isEmpty()) {
@@ -431,7 +469,8 @@ class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))))
+            .andExpect(jsonPath("$.[*].visibility").value(hasItem(DEFAULT_VISIBILITY.toString())));
 
         // Check, that the count call also returns 1
         restArticleMockMvc
@@ -485,7 +524,8 @@ class ArticleResourceIT {
             .description(UPDATED_DESCRIPTION)
             .content(UPDATED_CONTENT)
             .image(UPDATED_IMAGE)
-            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .visibility(UPDATED_VISIBILITY);
         ArticleDTO articleDTO = articleMapper.toDto(updatedArticle);
 
         restArticleMockMvc
@@ -571,7 +611,7 @@ class ArticleResourceIT {
         Article partialUpdatedArticle = new Article();
         partialUpdatedArticle.setId(article.getId());
 
-        partialUpdatedArticle.name(UPDATED_NAME).title(UPDATED_TITLE).description(UPDATED_DESCRIPTION);
+        partialUpdatedArticle.name(UPDATED_NAME).title(UPDATED_TITLE).description(UPDATED_DESCRIPTION).visibility(UPDATED_VISIBILITY);
 
         restArticleMockMvc
             .perform(
@@ -605,7 +645,8 @@ class ArticleResourceIT {
             .description(UPDATED_DESCRIPTION)
             .content(UPDATED_CONTENT)
             .image(UPDATED_IMAGE)
-            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .visibility(UPDATED_VISIBILITY);
 
         restArticleMockMvc
             .perform(

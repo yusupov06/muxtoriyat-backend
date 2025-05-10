@@ -98,6 +98,16 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="field_visibility" jhiTranslate="muxtoriyatApp.article.visibility">Visibility</label>
+          <select class="form-control" name="visibility" formControlName="visibility" id="field_visibility" data-cy="visibility">
+            <option [ngValue]="null">{{ 'muxtoriyatApp.VisibilityType.null' | translate }}</option>
+            @for (visibilityType of visibilityTypeValues; track $index) {
+              <option [value]="visibilityType">{{ 'muxtoriyatApp.VisibilityType.' + visibilityType | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="field_category" jhiTranslate="muxtoriyatApp.article.category">Category</label>
           <select
             class="form-control"

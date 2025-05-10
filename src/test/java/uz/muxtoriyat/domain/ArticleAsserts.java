@@ -52,7 +52,8 @@ public class ArticleAsserts {
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
             .satisfies(e -> assertThat(e.getContent()).as("check content").isEqualTo(actual.getContent()))
             .satisfies(e -> assertThat(e.getImage()).as("check image").isEqualTo(actual.getImage()))
-            .satisfies(e -> assertThat(e.getImageContentType()).as("check image contenty type").isEqualTo(actual.getImageContentType()));
+            .satisfies(e -> assertThat(e.getImageContentType()).as("check image contenty type").isEqualTo(actual.getImageContentType()))
+            .satisfies(e -> assertThat(e.getVisibility()).as("check visibility").isEqualTo(actual.getVisibility()));
     }
 
     /**

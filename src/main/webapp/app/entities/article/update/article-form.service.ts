@@ -24,6 +24,7 @@ type ArticleFormGroupContent = {
   content: FormControl<IArticle['content']>;
   image: FormControl<IArticle['image']>;
   imageContentType: FormControl<IArticle['imageContentType']>;
+  visibility: FormControl<IArticle['visibility']>;
   category: FormControl<IArticle['category']>;
 };
 
@@ -52,6 +53,7 @@ export class ArticleFormService {
       content: new FormControl(articleRawValue.content),
       image: new FormControl(articleRawValue.image),
       imageContentType: new FormControl(articleRawValue.imageContentType),
+      visibility: new FormControl(articleRawValue.visibility),
       category: new FormControl(articleRawValue.category),
     });
   }

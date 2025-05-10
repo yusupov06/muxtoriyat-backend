@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
+import uz.muxtoriyat.domain.enumeration.VisibilityType;
 
 /**
  * A DTO for the {@link uz.muxtoriyat.domain.Article} entity.
@@ -33,6 +34,8 @@ public class ArticleDTO implements Serializable {
     private String imageContentType;
 
     private CategoryDTO category;
+
+    private VisibilityType visibility;
 
     @Override
     public boolean equals(Object o) {
@@ -66,6 +69,7 @@ public class ArticleDTO implements Serializable {
             ", content='" + getContent() + "'" +
             ", image='" + getImage() + "'" +
             ", category=" + getCategory() +
+            ", visibility=" + getVisibility() +
             "}";
     }
 }

@@ -94,6 +94,9 @@ public class ArticleQueryService extends QueryService<Article> {
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), Article_.description));
             }
+            if (criteria.getVisibility() != null) {
+                specification = specification.and(buildSpecification(criteria.getVisibility(), Article_.visibility));
+            }
             if (criteria.getCategoryId() != null) {
                 specification = specification.and(
                     buildSpecification(criteria.getCategoryId(), root -> root.join(Article_.category, JoinType.LEFT).get(Category_.id))

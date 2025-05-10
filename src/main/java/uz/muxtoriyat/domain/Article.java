@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
+import uz.muxtoriyat.domain.enumeration.VisibilityType;
 
 /**
  * A Article.
@@ -44,6 +45,10 @@ public class Article implements Serializable {
 
     @Column(name = "image_content_type")
     private String imageContentType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "visibility")
+    private VisibilityType visibility;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "parent" }, allowSetters = true)
@@ -91,6 +96,11 @@ public class Article implements Serializable {
         return this;
     }
 
+    public Article visibility(VisibilityType visibility) {
+        this.setVisibility(visibility);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -121,6 +131,7 @@ public class Article implements Serializable {
             ", content='" + getContent() + "'" +
             ", image='" + getImage() + "'" +
             ", imageContentType='" + getImageContentType() + "'" +
+            ", visibility='" + getVisibility() + "'" +
             "}";
     }
 }

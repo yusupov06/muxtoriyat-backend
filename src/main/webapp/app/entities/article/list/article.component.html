@@ -79,6 +79,13 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="visibility">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.article.visibility">Visibility</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="category.id">
               <div class="d-flex">
                 <span jhiTranslate="muxtoriyatApp.article.category">Category</span>
@@ -105,6 +112,9 @@
                   </a>
                   <span>{{ article.imageContentType }}, {{ byteSize(article.image) }}</span>
                 }
+              </td>
+              <td [jhiTranslate]="'muxtoriyatApp.VisibilityType.' + (article.visibility ?? 'null')">
+                {{ { null: '', BLANK: 'BLANK', PUBLIC: 'PUBLIC' }[article.visibility ?? 'null'] }}
               </td>
               <td>
                 @if (article.category) {

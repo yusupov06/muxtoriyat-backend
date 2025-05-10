@@ -46,6 +46,12 @@
               </div>
             }
           </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.article.visibility">Visibility</span></dt>
+          <dd>
+            <span [jhiTranslate]="'muxtoriyatApp.VisibilityType.' + (articleRef.visibility ?? 'null')">{{
+              { null: '', BLANK: 'BLANK', PUBLIC: 'PUBLIC' }[articleRef.visibility ?? 'null']
+            }}</span>
+          </dd>
           <dt><span jhiTranslate="muxtoriyatApp.article.category">Category</span></dt>
           <dd>
             @if (article()!.category) {

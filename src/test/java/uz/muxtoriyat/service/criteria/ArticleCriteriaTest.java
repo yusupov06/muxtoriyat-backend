@@ -78,6 +78,7 @@ class ArticleCriteriaTest {
         articleCriteria.name();
         articleCriteria.title();
         articleCriteria.description();
+        articleCriteria.visibility();
         articleCriteria.categoryId();
         articleCriteria.distinct();
     }
@@ -89,6 +90,7 @@ class ArticleCriteriaTest {
                 condition.apply(criteria.getName()) &&
                 condition.apply(criteria.getTitle()) &&
                 condition.apply(criteria.getDescription()) &&
+                condition.apply(criteria.getVisibility()) &&
                 condition.apply(criteria.getCategoryId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
@@ -102,6 +104,7 @@ class ArticleCriteriaTest {
                 condition.apply(criteria.getName(), copy.getName()) &&
                 condition.apply(criteria.getTitle(), copy.getTitle()) &&
                 condition.apply(criteria.getDescription(), copy.getDescription()) &&
+                condition.apply(criteria.getVisibility(), copy.getVisibility()) &&
                 condition.apply(criteria.getCategoryId(), copy.getCategoryId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"

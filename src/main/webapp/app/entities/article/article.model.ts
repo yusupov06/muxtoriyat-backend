@@ -1,4 +1,5 @@
 import { ICategory } from 'app/entities/category/category.model';
+import { VisibilityType } from 'app/entities/enumerations/visibility-type.model';
 
 export interface IArticle {
   id: number;
@@ -8,6 +9,7 @@ export interface IArticle {
   content?: string | null;
   image?: string | null;
   imageContentType?: string | null;
+  visibility?: keyof typeof VisibilityType | null;
   category?: Pick<ICategory, 'id'> | null;
 }
 

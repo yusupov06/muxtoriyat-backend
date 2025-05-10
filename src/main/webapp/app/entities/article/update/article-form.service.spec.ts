@@ -25,6 +25,7 @@ describe('Article Form Service', () => {
             description: expect.any(Object),
             content: expect.any(Object),
             image: expect.any(Object),
+            visibility: expect.any(Object),
             category: expect.any(Object),
           }),
         );
@@ -41,6 +42,7 @@ describe('Article Form Service', () => {
             description: expect.any(Object),
             content: expect.any(Object),
             image: expect.any(Object),
+            visibility: expect.any(Object),
             category: expect.any(Object),
           }),
         );

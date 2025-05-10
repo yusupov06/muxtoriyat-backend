@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springdoc.core.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
+import uz.muxtoriyat.domain.enumeration.VisibilityType;
 
 /**
  * Criteria class for the {@link uz.muxtoriyat.domain.Article} entity. This class is used
@@ -20,6 +21,23 @@ import tech.jhipster.service.filter.*;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ArticleCriteria implements Serializable, Criteria {
 
+    /**
+     * Class for filtering VisibilityType
+     */
+    public static class VisibilityTypeFilter extends Filter<VisibilityType> {
+
+        public VisibilityTypeFilter() {}
+
+        public VisibilityTypeFilter(VisibilityTypeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public VisibilityTypeFilter copy() {
+            return new VisibilityTypeFilter(this);
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
@@ -29,6 +47,8 @@ public class ArticleCriteria implements Serializable, Criteria {
     private StringFilter title;
 
     private StringFilter description;
+
+    private VisibilityTypeFilter visibility;
 
     private LongFilter categoryId;
 
@@ -41,6 +61,7 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.name = other.optionalName().map(StringFilter::copy).orElse(null);
         this.title = other.optionalTitle().map(StringFilter::copy).orElse(null);
         this.description = other.optionalDescription().map(StringFilter::copy).orElse(null);
+        this.visibility = other.optionalVisibility().map(VisibilityTypeFilter::copy).orElse(null);
         this.categoryId = other.optionalCategoryId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
@@ -126,6 +147,25 @@ public class ArticleCriteria implements Serializable, Criteria {
         this.description = description;
     }
 
+    public VisibilityTypeFilter getVisibility() {
+        return visibility;
+    }
+
+    public Optional<VisibilityTypeFilter> optionalVisibility() {
+        return Optional.ofNullable(visibility);
+    }
+
+    public VisibilityTypeFilter visibility() {
+        if (visibility == null) {
+            setVisibility(new VisibilityTypeFilter());
+        }
+        return visibility;
+    }
+
+    public void setVisibility(VisibilityTypeFilter visibility) {
+        this.visibility = visibility;
+    }
+
     public LongFilter getCategoryId() {
         return categoryId;
     }
@@ -178,6 +218,7 @@ public class ArticleCriteria implements Serializable, Criteria {
             Objects.equals(name, that.name) &&
             Objects.equals(title, that.title) &&
             Objects.equals(description, that.description) &&
+            Objects.equals(visibility, that.visibility) &&
             Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -185,7 +226,7 @@ public class ArticleCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, title, description, categoryId, distinct);
+        return Objects.hash(id, name, title, description, visibility, categoryId, distinct);
     }
 
     // prettier-ignore
@@ -196,6 +237,7 @@ public class ArticleCriteria implements Serializable, Criteria {
             optionalName().map(f -> "name=" + f + ", ").orElse("") +
             optionalTitle().map(f -> "title=" + f + ", ").orElse("") +
             optionalDescription().map(f -> "description=" + f + ", ").orElse("") +
+            optionalVisibility().map(f -> "visibility=" + f + ", ").orElse("") +
             optionalCategoryId().map(f -> "categoryId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";

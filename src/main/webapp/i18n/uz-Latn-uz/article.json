@@ -23,6 +23,7 @@
       "description": "Description",
       "content": "Content",
       "image": "Image",
+      "visibility": "Visibility",
       "category": "Category"
     }
   }

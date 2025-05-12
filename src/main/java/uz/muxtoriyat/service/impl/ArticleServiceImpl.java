@@ -74,6 +74,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Optional<ArticleViewDTO> findOneByAuthorIdAsView(Long authorId, Long id) {
+        return articleRepository.findByIdAndAuthor_Id(authorId, id).map(articleMapper::toViewDto);
+    }
+
+    @Override
     public void delete(Long id) {
         LOG.debug("Request to delete Article : {}", id);
         articleRepository.deleteById(id);

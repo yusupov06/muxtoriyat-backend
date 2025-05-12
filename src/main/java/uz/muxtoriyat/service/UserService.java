@@ -23,6 +23,7 @@ import uz.muxtoriyat.security.AuthoritiesConstants;
 import uz.muxtoriyat.security.SecurityUtils;
 import uz.muxtoriyat.service.dto.AdminUserDTO;
 import uz.muxtoriyat.service.dto.UserDTO;
+import uz.muxtoriyat.service.mapper.UserMapper;
 
 /**
  * Service class for managing users.
@@ -35,6 +36,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UserMapper userMapper;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -43,11 +46,13 @@ public class UserService {
 
     public UserService(
         UserRepository userRepository,
+        UserMapper userMapper,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager
     ) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
@@ -320,5 +325,13 @@ public class UserService {
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
+    }
+
+    public Optional<UserDTO> getUserByLogin(String login) {
+        return userRepository.findOneByLogin(login).map(userMapper::toDto);
+    }
+
+    public Optional<Long> getUserIdByLogin(String login) {
+        return userRepository.findOneByLogin(login).map(User::getId);
     }
 }

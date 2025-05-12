@@ -147,4 +147,16 @@ public class UserMapper {
 
         return userSet;
     }
+
+    public UserDTO toDto(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserDTO userDto = new UserDTO();
+        userDto.setId(user.getId());
+        userDto.setLogin(user.getLogin());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        return userDto;
+    }
 }

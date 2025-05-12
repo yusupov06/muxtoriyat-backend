@@ -38,7 +38,7 @@ public class MyProfileResource {
         return ResponseEntity.ok(userByLogin.orElseThrow());
     }
 
-    @PostMapping
+    @PostMapping("/reset-password")
     public ResponseEntity<Boolean> resetPassword(@RequestBody ResetPasswordDto resetPasswordDto) {
         boolean reset = userProfileService.resetMyPassword(resetPasswordDto);
         return ResponseEntity.ok(reset);

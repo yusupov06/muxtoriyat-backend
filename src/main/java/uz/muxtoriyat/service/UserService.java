@@ -334,4 +334,13 @@ public class UserService {
     public Optional<Long> getUserIdByLogin(String login) {
         return userRepository.findOneByLogin(login).map(User::getId);
     }
+
+    public boolean isActiveByUsername(String username) {
+        Optional<User> oneByLogin = userRepository.findOneByLogin(username);
+        if (oneByLogin.isPresent()) {
+            User user = oneByLogin.get();
+            return user.isActivated();
+        }
+        return false;
+    }
 }

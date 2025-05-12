@@ -157,6 +157,7 @@ public class UserMapper {
         userDto.setLogin(user.getLogin());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
         return userDto;
     }
 }

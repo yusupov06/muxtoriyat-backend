@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.*;
+import uz.muxtoriyat.service.UserService;
 import uz.muxtoriyat.web.rest.vm.LoginVM;
 
 /**
@@ -45,10 +46,17 @@ public class AuthenticateController {
     @Value("${jhipster.security.authentication.jwt.token-validity-in-seconds-for-remember-me:0}")
     private long tokenValidityInSecondsForRememberMe;
 
+    private final UserService userService;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthenticateController(JwtEncoder jwtEncoder, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public AuthenticateController(
+        JwtEncoder jwtEncoder,
+        UserService userService,
+        AuthenticationManagerBuilder authenticationManagerBuilder
+    ) {
         this.jwtEncoder = jwtEncoder;
+        this.userService = userService;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
@@ -95,6 +103,7 @@ public class AuthenticateController {
             .issuedAt(now)
             .expiresAt(validity)
             .subject(authentication.getName())
+            .claim("active", userService.isActiveByUsername(authentication.getName()))
             .claim(AUTHORITIES_KEY, authorities)
             .build();
 

@@ -1,11 +1,13 @@
 package uz.muxtoriyat.service.impl;
 
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tech.jhipster.security.RandomUtil;
 import uz.muxtoriyat.domain.User;
 import uz.muxtoriyat.repository.UserRepository;
 import uz.muxtoriyat.security.SecurityUtils;
@@ -46,7 +48,11 @@ public class UserProfileServiceImpl implements UserProfileService {
             return false;
         }
 
-        user.setPassword(passwordEncoder.encode(resetPasswordDto.getNewPassword()));
+        String encryptedPassword = passwordEncoder.encode(resetPasswordDto.getNewPassword());
+        user.setPassword(encryptedPassword);
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+        user.setActivated(true);
         userRepository.save(user);
         return true;
     }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.domain.Article;
+import uz.muxtoriyat.domain.enumeration.VisibilityType;
 import uz.muxtoriyat.repository.ArticleRepository;
 import uz.muxtoriyat.service.ArticleService;
 import uz.muxtoriyat.service.dto.ArticleDTO;
@@ -34,6 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDTO save(ArticleDTO articleDTO) {
         LOG.debug("Request to save Article : {}", articleDTO);
         Article article = articleMapper.toEntity(articleDTO);
+        article.setVisibility(VisibilityType.BLANK);
         article = articleRepository.save(article);
         return articleMapper.toDto(article);
     }

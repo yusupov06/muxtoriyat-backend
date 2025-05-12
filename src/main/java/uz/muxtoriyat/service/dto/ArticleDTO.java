@@ -33,7 +33,7 @@ public class ArticleDTO implements Serializable {
 
     private String imageContentType;
 
-    private VisibilityType visibility;
+    private VisibilityType visibility = VisibilityType.BLANK;
 
     private CategoryDTO category;
 

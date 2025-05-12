@@ -35,7 +35,7 @@ public class MyProfileResource {
             LOG.warn("No user found by login: {}", currentUserLogin.orElseThrow());
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userByLogin.get());
+        return ResponseEntity.ok(userByLogin.orElseThrow());
     }
 
     @PostMapping

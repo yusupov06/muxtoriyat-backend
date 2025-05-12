@@ -31,6 +31,13 @@ public class Source extends AbstractAuditingEntity<Long> implements Serializable
     @Column(name = "description")
     private String description;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "parent" }, allowSetters = true)
     private Category category;
@@ -53,6 +60,16 @@ public class Source extends AbstractAuditingEntity<Long> implements Serializable
 
     public Source description(String description) {
         this.setDescription(description);
+        return this;
+    }
+
+    public Source image(byte[] image) {
+        this.setImage(image);
+        return this;
+    }
+
+    public Source imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
         return this;
     }
 
@@ -87,6 +104,8 @@ public class Source extends AbstractAuditingEntity<Long> implements Serializable
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", image='" + getImage() + "'" +
+            ", imageContentType='" + getImageContentType() + "'" +
             "}";
     }
 }

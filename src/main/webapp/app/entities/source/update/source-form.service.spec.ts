@@ -22,6 +22,7 @@ describe('Source Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             description: expect.any(Object),
+            image: expect.any(Object),
             category: expect.any(Object),
           }),
         );
@@ -35,6 +36,7 @@ describe('Source Form Service', () => {
             id: expect.any(Object),
             name: expect.any(Object),
             description: expect.any(Object),
+            image: expect.any(Object),
             category: expect.any(Object),
           }),
         );

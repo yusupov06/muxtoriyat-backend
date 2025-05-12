@@ -12,6 +12,10 @@
     {
       "fieldName": "description",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "ImageBlob"
     }
   ],
   "jpaMetamodelFiltering": true,

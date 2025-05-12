@@ -4,6 +4,8 @@ export interface ISource {
   id: number;
   name?: string | null;
   description?: string | null;
+  image?: string | null;
+  imageContentType?: string | null;
   category?: Pick<ICategory, 'id'> | null;
 }
 

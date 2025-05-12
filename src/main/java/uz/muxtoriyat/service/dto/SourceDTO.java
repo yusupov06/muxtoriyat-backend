@@ -1,5 +1,6 @@
 package uz.muxtoriyat.service.dto;
 
+import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.Getter;
@@ -8,9 +9,9 @@ import lombok.Setter;
 /**
  * A DTO for the {@link uz.muxtoriyat.domain.Source} entity.
  */
-@SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
 @Setter
+@Getter
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class SourceDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
@@ -18,6 +19,11 @@ public class SourceDTO extends AbstractAuditingDTO implements Serializable {
     private String name;
 
     private String description;
+
+    @Lob
+    private byte[] image;
+
+    private String imageContentType;
 
     private CategoryDTO category;
 
@@ -51,6 +57,7 @@ public class SourceDTO extends AbstractAuditingDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", image='" + getImage() + "'" +
             ", category=" + getCategory() +
             "}";
     }

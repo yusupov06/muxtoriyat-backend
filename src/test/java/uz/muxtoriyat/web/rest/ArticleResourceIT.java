@@ -94,7 +94,7 @@ class ArticleResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Article createEntity() {
-        return new Article()
+        Article article1 = new Article()
             .name(DEFAULT_NAME)
             .title(DEFAULT_TITLE)
             .description(DEFAULT_DESCRIPTION)
@@ -102,6 +102,8 @@ class ArticleResourceIT {
             .image(DEFAULT_IMAGE)
             .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE)
             .visibility(DEFAULT_VISIBILITY);
+        article1.setCreatedBy("admin");
+        return article1;
     }
 
     /**

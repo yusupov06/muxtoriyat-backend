@@ -20,6 +20,8 @@ type SourceFormGroupContent = {
   id: FormControl<ISource['id'] | NewSource['id']>;
   name: FormControl<ISource['name']>;
   description: FormControl<ISource['description']>;
+  image: FormControl<ISource['image']>;
+  imageContentType: FormControl<ISource['imageContentType']>;
   category: FormControl<ISource['category']>;
 };
 
@@ -42,6 +44,8 @@ export class SourceFormService {
       ),
       name: new FormControl(sourceRawValue.name),
       description: new FormControl(sourceRawValue.description),
+      image: new FormControl(sourceRawValue.image),
+      imageContentType: new FormControl(sourceRawValue.imageContentType),
       category: new FormControl(sourceRawValue.category),
     });
   }

@@ -58,6 +58,13 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="image">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.source.image">Image</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="category.id">
               <div class="d-flex">
                 <span jhiTranslate="muxtoriyatApp.source.category">Category</span>
@@ -75,6 +82,14 @@
               </td>
               <td>{{ source.name }}</td>
               <td>{{ source.description }}</td>
+              <td>
+                @if (source.image) {
+                  <a (click)="openFile(source.image, source.imageContentType)">
+                    <img [src]="'data:' + source.imageContentType + ';base64,' + source.image" style="max-height: 30px" alt="source" />
+                  </a>
+                  <span>{{ source.imageContentType }}, {{ byteSize(source.image) }}</span>
+                }
+              </td>
               <td>
                 @if (source.category) {
                   <div>

@@ -9,13 +9,14 @@ import { SortByDirective, SortDirective, SortService, type SortState, sortStateS
 import { DurationPipe, FormatMediumDatePipe, FormatMediumDatetimePipe } from 'app/shared/date';
 import { ItemCountComponent } from 'app/shared/pagination';
 import { FormsModule } from '@angular/forms';
+
 import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
 import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
+import { DataUtils } from 'app/core/util/data-util.service';
 import { FilterComponent, FilterOptions, IFilterOption, IFilterOptions } from 'app/shared/filter';
-import { ISource } from '../source.model';
-
 import { EntityArrayResponseType, SourceService } from '../service/source.service';
 import { SourceDeleteDialogComponent } from '../delete/source-delete-dialog.component';
+import { ISource } from '../source.model';
 
 @Component({
   standalone: true,
@@ -50,6 +51,7 @@ export class SourceComponent implements OnInit {
   protected sourceService = inject(SourceService);
   protected activatedRoute = inject(ActivatedRoute);
   protected sortService = inject(SortService);
+  protected dataUtils = inject(DataUtils);
   protected modalService = inject(NgbModal);
   protected ngZone = inject(NgZone);
 
@@ -64,6 +66,14 @@ export class SourceComponent implements OnInit {
       .subscribe();
 
     this.filters.filterChanges.subscribe(filterOptions => this.handleNavigation(1, this.sortState(), filterOptions));
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
   }
 
   delete(source: ISource): void {

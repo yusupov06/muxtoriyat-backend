@@ -23,6 +23,17 @@
           <dd>
             <span>{{ sourceRef.description }}</span>
           </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.image">Image</span></dt>
+          <dd>
+            @if (sourceRef.image) {
+              <div>
+                <a (click)="openFile(sourceRef.image ?? '', sourceRef.imageContentType)">
+                  <img [src]="'data:' + sourceRef.imageContentType + ';base64,' + sourceRef.image" style="max-width: 100%" alt="source" />
+                </a>
+                {{ sourceRef.imageContentType }}, {{ byteSize(sourceRef.image ?? '') }}
+              </div>
+            }
+          </dd>
           <dt><span jhiTranslate="muxtoriyatApp.source.category">Category</span></dt>
           <dd>
             @if (source()!.category) {

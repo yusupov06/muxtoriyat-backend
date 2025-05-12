@@ -35,9 +35,9 @@ public class UserProfileServiceImpl implements UserProfileService {
             return false;
         }
 
-        Optional<User> userByLogin = userRepository.findOneByLogin(currentUserLogin.get());
+        Optional<User> userByLogin = userRepository.findOneByLogin(currentUserLogin.orElseThrow());
         if (userByLogin.isEmpty()) {
-            log.error("user not found with login {}", currentUserLogin.get());
+            log.error("user not found with login {}", currentUserLogin.orElseThrow());
             return false;
         }
 

@@ -9,6 +9,7 @@ import static uz.muxtoriyat.web.rest.TestUtil.createUpdateProxyForBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import java.util.Base64;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +41,11 @@ class SourceResourceIT {
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/sources";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -73,7 +79,13 @@ class SourceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Source createEntity() {
-        return new Source().name(DEFAULT_NAME).description(DEFAULT_DESCRIPTION);
+        Source source1 = new Source()
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .image(DEFAULT_IMAGE)
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
+        source1.setCreatedBy("admin");
+        return source1;
     }
 
     /**
@@ -83,7 +95,11 @@ class SourceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Source createUpdatedEntity() {
-        return new Source().name(UPDATED_NAME).description(UPDATED_DESCRIPTION);
+        return new Source()
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @BeforeEach
@@ -154,7 +170,9 @@ class SourceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(source.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
     }
 
     @Test
@@ -170,7 +188,9 @@ class SourceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(source.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.image").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE)));
     }
 
     @Test
@@ -328,7 +348,9 @@ class SourceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(source.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
 
         // Check, that the count call also returns 1
         restSourceMockMvc
@@ -376,7 +398,7 @@ class SourceResourceIT {
         Source updatedSource = sourceRepository.findById(source.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedSource are not directly saved in db
         em.detach(updatedSource);
-        updatedSource.name(UPDATED_NAME).description(UPDATED_DESCRIPTION);
+        updatedSource.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).image(UPDATED_IMAGE).imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
         SourceDTO sourceDTO = sourceMapper.toDto(updatedSource);
 
         restSourceMockMvc
@@ -488,7 +510,11 @@ class SourceResourceIT {
         Source partialUpdatedSource = new Source();
         partialUpdatedSource.setId(source.getId());
 
-        partialUpdatedSource.name(UPDATED_NAME).description(UPDATED_DESCRIPTION);
+        partialUpdatedSource
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
 
         restSourceMockMvc
             .perform(

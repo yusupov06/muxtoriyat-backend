@@ -1,5 +1,6 @@
 package uz.muxtoriyat.web.rest;
 
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,6 +23,17 @@ public class MyProfileResource {
     private final UserService userService;
 
     private final UserProfileService userProfileService;
+
+    @PostMapping("/edit")
+    public ResponseEntity<UserDTO> editMyProfile(@RequestBody UserDTO userDTO) {
+        Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
+        if (currentUserLogin.isEmpty()) {
+            LOG.warn("No user logged in");
+            return ResponseEntity.notFound().build();
+        }
+        Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
+        return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @GetMapping
     public ResponseEntity<UserDTO> myProfile() {

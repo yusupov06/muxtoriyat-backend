@@ -3,7 +3,9 @@ package uz.muxtoriyat.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -28,6 +30,8 @@ public class MailService {
     private static final Logger LOG = LoggerFactory.getLogger(MailService.class);
 
     private static final String USER = "user";
+
+    private static final String PASSWORD = "password";
 
     private static final String BASE_URL = "baseUrl";
 
@@ -86,13 +90,14 @@ public class MailService {
         this.sendEmailFromTemplateSync(user, templateName, titleKey);
     }
 
-    private void sendEmailFromTemplateSync(User user, String templateName, String titleKey) {
+    private void sendEmailFromTemplateSync(User user, String templateName, String titleKey, Map<String, Object> variables) {
         if (user.getEmail() == null) {
             LOG.debug("Email doesn't exist for user '{}'", user.getLogin());
             return;
         }
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
+        variables.forEach(context::setVariable);
         context.setVariable(USER, user);
         context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
@@ -100,10 +105,25 @@ public class MailService {
         this.sendEmailSync(user.getEmail(), subject, content, false, true);
     }
 
+    private void sendEmailFromTemplateSync(User user, String templateName, String titleKey) {
+        sendEmailFromTemplateSync(user, templateName, titleKey, new HashMap<>());
+    }
+
     @Async
     public void sendActivationEmail(User user) {
         LOG.debug("Sending activation email to '{}'", user.getEmail());
         this.sendEmailFromTemplateSync(user, "mail/activationEmail", "email.activation.title");
+    }
+
+    @Async
+    public void sendLoginPasswordViaEmail(User user, String password) {
+        LOG.debug("Sending login and password via email to '{}'", user.getEmail());
+        this.sendEmailFromTemplateSync(
+                user,
+                "mail/loginPasswordSendEmail",
+                "email.send-login-and-password.title",
+                Map.of(PASSWORD, password)
+            );
     }
 
     @Async

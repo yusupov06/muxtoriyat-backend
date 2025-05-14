@@ -1,5 +1,6 @@
 package uz.muxtoriyat.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -26,6 +27,9 @@ public class AdminUserDTO implements Serializable {
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
     private String login;
+
+    @JsonIgnore
+    private String password;
 
     @Size(max = 50)
     private String firstName;

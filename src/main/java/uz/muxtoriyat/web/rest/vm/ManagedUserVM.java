@@ -1,11 +1,15 @@
 package uz.muxtoriyat.web.rest.vm;
 
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import uz.muxtoriyat.service.dto.AdminUserDTO;
 
 /**
  * View Model extending the AdminUserDTO, which is meant to be used in the user management UI.
  */
+@Setter
+@Getter
 public class ManagedUserVM extends AdminUserDTO {
 
     public static final int PASSWORD_MIN_LENGTH = 4;
@@ -17,14 +21,6 @@ public class ManagedUserVM extends AdminUserDTO {
 
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     // prettier-ignore

@@ -49,10 +49,10 @@ describe('File Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call Source query and add missing value', () => {
       const file: IFile = { id: 456 };
-      const source: ISource = { id: 16452 };
+      const source: ISource = { id: 30711 };
       file.source = source;
 
-      const sourceCollection: ISource[] = [{ id: 5687 }];
+      const sourceCollection: ISource[] = [{ id: 462 }];
       jest.spyOn(sourceService, 'query').mockReturnValue(of(new HttpResponse({ body: sourceCollection })));
       const additionalSources = [source];
       const expectedCollection: ISource[] = [...additionalSources, ...sourceCollection];
@@ -71,7 +71,7 @@ describe('File Management Update Component', () => {
 
     it('Should update editForm', () => {
       const file: IFile = { id: 456 };
-      const source: ISource = { id: 31837 };
+      const source: ISource = { id: 32510 };
       file.source = source;
 
       activatedRoute.data = of({ file });

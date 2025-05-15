@@ -47,12 +47,7 @@
 
         <div class="mb-3">
           <label class="form-label" for="field_content" jhiTranslate="muxtoriyatApp.article.content">Content</label>
-          <quill-editor
-            formControlName="content"
-            [modules]="editorModules"
-            [style]="{ height: '500px', backgroundColor: '#fff', color: 'black', width: '200%' }"
-            placeholder="Write your description here..."
-          ></quill-editor>
+          <textarea class="form-control" name="content" id="field_content" data-cy="content" formControlName="content"></textarea>
         </div>
 
         @let imageRef = editForm.get('image')!;

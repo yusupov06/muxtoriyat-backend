@@ -35,11 +35,7 @@
               "src/main/webapp/manifest.webapp",
               "src/main/webapp/robots.txt"
             ],
-            "styles": [
-              "src/main/webapp/content/scss/vendor.scss",
-              "src/main/webapp/content/scss/global.scss",
-              "node_modules/quill/dist/quill.snow.css"
-            ],
+            "styles": ["src/main/webapp/content/scss/vendor.scss", "src/main/webapp/content/scss/global.scss"],
             "scripts": []
           },
           "configurations": {
@@ -110,6 +106,6 @@
       "environment": "all"
     },
     "packageManager": "npm",
-    "analytics": "ae95a353-a505-48dc-ab64-b9e2e970a306"
+    "analytics": "3f32a594-dcad-4f20-9e54-b68518468e4a"
   }
 }

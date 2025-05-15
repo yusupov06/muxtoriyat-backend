@@ -1,22 +1,21 @@
 import { IArticle, NewArticle } from './article.model';
 
 export const sampleWithRequiredData: IArticle = {
-  id: 11289,
-  name: 'gadzooks worth nor',
+  id: 27792,
+  name: 'yowza nor intently',
 };
 
 export const sampleWithPartialData: IArticle = {
-  id: 25621,
-  name: 'ah ick satisfy',
-  title: 'vacantly runny but',
-  description: 'till but likewise',
+  id: 28,
+  name: 'valuable blah fashion',
+  title: 'um in iterate',
 };
 
 export const sampleWithFullData: IArticle = {
-  id: 2924,
-  name: 'innocently testing mechanically',
-  title: 'step',
-  description: 'drug',
+  id: 18987,
+  name: 'clearly even overload',
+  title: 'develop tomography',
+  description: 'wherever flint anenst',
   content: '../fake-data/blob/hipster.txt',
   image: '../fake-data/blob/hipster.png',
   imageContentType: 'unknown',
@@ -24,7 +23,7 @@ export const sampleWithFullData: IArticle = {
 };
 
 export const sampleWithNewData: NewArticle = {
-  name: 'grok',
+  name: 'celsius drag',
   id: null,
 };
 

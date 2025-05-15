@@ -18,33 +18,16 @@ import { VisibilityType } from 'app/entities/enumerations/visibility-type.model'
 import { ArticleService } from '../service/article.service';
 import { IArticle } from '../article.model';
 import { ArticleFormGroup, ArticleFormService } from './article-form.service';
-import { QuillModule } from 'ngx-quill';
 
 @Component({
   standalone: true,
   selector: 'jhi-article-update',
   templateUrl: './article-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule, QuillModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ArticleUpdateComponent implements OnInit {
   isSaving = false;
   article: IArticle | null = null;
-  bio: string = '';
-  // menu added new tasks here
-  editorModules = {
-    toolbar: [
-      [{ font: [] }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ['bold', 'italic', 'underline', 'strike'], // B I U S
-      [{ color: [] }, { background: [] }], // rang va fon rangi
-      [{ script: 'sub' }, { script: 'super' }], // x₂ va x²
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ align: [] }],
-      ['blockquote', 'code-block'],
-      ['link', 'image', 'video'],
-      ['clean'], // formatni tozalash
-    ],
-  };
   visibilityTypeValues = Object.keys(VisibilityType);
 
   categoriesSharedCollection: ICategory[] = [];

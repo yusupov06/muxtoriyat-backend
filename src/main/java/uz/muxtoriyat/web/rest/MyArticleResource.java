@@ -1,5 +1,6 @@
 package uz.muxtoriyat.web.rest;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -9,21 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.security.SecurityUtils;
-import uz.muxtoriyat.service.ArticleQueryService;
-import uz.muxtoriyat.service.ArticleService;
-import uz.muxtoriyat.service.ArticleViewService;
-import uz.muxtoriyat.service.UserService;
+import uz.muxtoriyat.service.*;
 import uz.muxtoriyat.service.criteria.ArticleCriteria;
 import uz.muxtoriyat.service.dto.UserDTO;
+import uz.muxtoriyat.service.dto.view.ArticleAddDTO;
 import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
 import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 
@@ -36,9 +32,12 @@ public class MyArticleResource {
 
     private final ArticleService articleService;
 
+    private final MyArticleService myArticleService;
+
     private final ArticleViewService articleViewService;
 
     private final ArticleQueryService articleQueryService;
+
     private final UserService userService;
 
     /**
@@ -110,5 +109,11 @@ public class MyArticleResource {
         Optional<ArticleViewDTO> articleDTO = articleService.findOneByAuthorIdAsView(userIdByLogin.orElseThrow(), id);
         articleDTO.ifPresent(articleViewService::fillReactions);
         return ResponseUtil.wrapOrNotFound(articleDTO);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ArticleViewDTO> createArticle(@Valid @RequestBody ArticleAddDTO articleAddDTO) {
+        ArticleViewDTO articleViewDTO = myArticleService.addArticle(articleAddDTO);
+        return ResponseEntity.ok(articleViewDTO);
     }
 }

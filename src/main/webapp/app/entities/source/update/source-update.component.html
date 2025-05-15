@@ -75,6 +75,62 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="field_fileUrl" jhiTranslate="muxtoriyatApp.source.fileUrl">File Url</label>
+          <input type="text" class="form-control" name="fileUrl" id="field_fileUrl" data-cy="fileUrl" formControlName="fileUrl" />
+        </div>
+
+        @let fileContentRef = editForm.get('fileContent')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_fileContent" jhiTranslate="muxtoriyatApp.source.fileContent">File Content</label>
+          <div>
+            @if (fileContentRef.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start">{{ editForm.get('fileContentContentType')!.value }}, {{ byteSize(fileContentRef.value!) }}</span>
+                <button
+                  type="button"
+                  (click)="editForm.patchValue({ fileContent: undefined, fileContentContentType: undefined })"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_fileContent"
+              data-cy="fileContent"
+              (change)="setFileData($event, 'fileContent', false)"
+              jhiTranslate="entity.action.addblob"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="fileContent"
+            id="field_fileContent"
+            data-cy="fileContent"
+            formControlName="fileContent"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="fileContentContentType"
+            id="field_fileContentContentType"
+            formControlName="fileContentContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_fileType" jhiTranslate="muxtoriyatApp.source.fileType">File Type</label>
+          <select class="form-control" name="fileType" formControlName="fileType" id="field_fileType" data-cy="fileType">
+            <option [ngValue]="null">{{ 'muxtoriyatApp.FileType.null' | translate }}</option>
+            @for (fileType of fileTypeValues; track $index) {
+              <option [value]="fileType">{{ 'muxtoriyatApp.FileType.' + fileType | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="field_category" jhiTranslate="muxtoriyatApp.source.category">Category</label>
           <select
             class="form-control"

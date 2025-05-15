@@ -91,6 +91,12 @@ public class SourceQueryService extends QueryService<Source> {
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), Source_.description));
             }
+            if (criteria.getFileUrl() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFileUrl(), Source_.fileUrl));
+            }
+            if (criteria.getFileType() != null) {
+                specification = specification.and(buildSpecification(criteria.getFileType(), Source_.fileType));
+            }
             if (criteria.getCategoryId() != null) {
                 specification = specification.and(
                     buildSpecification(criteria.getCategoryId(), root -> root.join(Source_.category, JoinType.LEFT).get(Category_.id))

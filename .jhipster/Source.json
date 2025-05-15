@@ -16,6 +16,19 @@
     {
       "fieldName": "image",
       "fieldType": "ImageBlob"
+    },
+    {
+      "fieldName": "fileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fileContent",
+      "fieldType": "Blob"
+    },
+    {
+      "fieldName": "fileType",
+      "fieldType": "FileType",
+      "fieldValues": "IMAGE,VIDEO,PDF"
     }
   ],
   "jpaMetamodelFiltering": true,

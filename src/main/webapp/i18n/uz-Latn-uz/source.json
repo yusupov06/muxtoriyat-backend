@@ -21,6 +21,9 @@
       "name": "Name",
       "description": "Description",
       "image": "Image",
+      "fileUrl": "File Url",
+      "fileContent": "File Content",
+      "fileType": "File Type",
       "category": "Category"
     }
   }

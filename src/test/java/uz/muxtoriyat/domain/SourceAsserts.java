@@ -50,7 +50,15 @@ public class SourceAsserts {
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
             .satisfies(e -> assertThat(e.getImage()).as("check image").isEqualTo(actual.getImage()))
-            .satisfies(e -> assertThat(e.getImageContentType()).as("check image contenty type").isEqualTo(actual.getImageContentType()));
+            .satisfies(e -> assertThat(e.getImageContentType()).as("check image contenty type").isEqualTo(actual.getImageContentType()))
+            .satisfies(e -> assertThat(e.getFileUrl()).as("check fileUrl").isEqualTo(actual.getFileUrl()))
+            .satisfies(e -> assertThat(e.getFileContent()).as("check fileContent").isEqualTo(actual.getFileContent()))
+            .satisfies(e ->
+                assertThat(e.getFileContentContentType())
+                    .as("check fileContent contenty type")
+                    .isEqualTo(actual.getFileContentContentType())
+            )
+            .satisfies(e -> assertThat(e.getFileType()).as("check fileType").isEqualTo(actual.getFileType()));
     }
 
     /**

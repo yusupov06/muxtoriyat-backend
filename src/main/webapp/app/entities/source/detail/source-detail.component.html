@@ -34,6 +34,20 @@
               </div>
             }
           </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.fileUrl">File Url</span></dt>
+          <dd>
+            <span>{{ sourceRef.fileUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.fileContent">File Content</span></dt>
+          <dd>
+            <span>{{ sourceRef.fileContent }}</span>
+          </dd>
+          <dt><span jhiTranslate="muxtoriyatApp.source.fileType">File Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'muxtoriyatApp.FileType.' + (sourceRef.fileType ?? 'null')">{{
+              { null: '', IMAGE: 'IMAGE', VIDEO: 'VIDEO', PDF: 'PDF' }[sourceRef.fileType ?? 'null']
+            }}</span>
+          </dd>
           <dt><span jhiTranslate="muxtoriyatApp.source.category">Category</span></dt>
           <dd>
             @if (source()!.category) {

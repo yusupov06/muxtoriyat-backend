@@ -1,13 +1,13 @@
 package uz.muxtoriyat.service.mapper;
 
-import java.util.List;
 import java.util.Objects;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import uz.muxtoriyat.domain.Category;
-import uz.muxtoriyat.domain.File;
 import uz.muxtoriyat.domain.Source;
 import uz.muxtoriyat.service.dto.CategoryDTO;
-import uz.muxtoriyat.service.dto.FileDTO;
 import uz.muxtoriyat.service.dto.SourceDTO;
 import uz.muxtoriyat.service.dto.view.FileViewDTO;
 import uz.muxtoriyat.service.dto.view.SourceViewDTO;
@@ -18,7 +18,6 @@ import uz.muxtoriyat.service.dto.view.SourceViewDTO;
 @Mapper(componentModel = "spring")
 public interface SourceMapper extends EntityMapper<SourceDTO, Source> {
     @Mapping(target = "category", source = "category", qualifiedByName = "categoryId")
-    @Mapping(target = "file", expression = "java(getFile(s))")
     SourceDTO toDto(Source s);
 
     @Named("categoryId")
@@ -26,30 +25,15 @@ public interface SourceMapper extends EntityMapper<SourceDTO, Source> {
     @Mapping(target = "id", source = "id")
     CategoryDTO toDtoCategoryId(Category category);
 
-    default FileDTO getFile(Source source) {
-        if (Objects.isNull(source) || Objects.isNull(source.getFiles()) || source.getFiles().isEmpty()) {
-            return null;
-        }
-        List<File> files = source.getFiles();
-        return mapToFileDTO(files.get(0));
-    }
-
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "description", source = "description")
-    @Mapping(target = "url", source = "url")
-    FileDTO mapToFileDTO(File file);
-
     default FileViewDTO getFileAsView(Source source) {
-        if (Objects.isNull(source) || Objects.isNull(source.getFiles()) || source.getFiles().isEmpty()) {
+        if (Objects.isNull(source)) {
             return null;
         }
-        List<File> files = source.getFiles();
-        return mapToFileViewDTO(files.get(0));
+        FileViewDTO fileViewDTO = new FileViewDTO();
+        fileViewDTO.setUrl(source.getFileUrl());
+        fileViewDTO.setFileType(source.getFileType());
+        return fileViewDTO;
     }
-
-    FileViewDTO mapToFileViewDTO(File file);
 
     @Mapping(target = "file", expression = "java(getFileAsView(s))")
     SourceViewDTO toViewDto(Source s);

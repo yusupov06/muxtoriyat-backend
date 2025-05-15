@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.muxtoriyat.IntegrationTest;
 import uz.muxtoriyat.domain.Category;
 import uz.muxtoriyat.domain.Source;
+import uz.muxtoriyat.domain.enumeration.FileType;
 import uz.muxtoriyat.repository.SourceRepository;
 import uz.muxtoriyat.service.dto.SourceDTO;
 import uz.muxtoriyat.service.mapper.SourceMapper;
@@ -46,6 +47,17 @@ class SourceResourceIT {
     private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_FILE_URL = "AAAAAAAAAA";
+    private static final String UPDATED_FILE_URL = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_FILE_CONTENT = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_FILE_CONTENT = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_FILE_CONTENT_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_FILE_CONTENT_CONTENT_TYPE = "image/png";
+
+    private static final FileType DEFAULT_FILE_TYPE = FileType.IMAGE;
+    private static final FileType UPDATED_FILE_TYPE = FileType.VIDEO;
 
     private static final String ENTITY_API_URL = "/api/sources";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -79,13 +91,15 @@ class SourceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Source createEntity() {
-        Source source1 = new Source()
+        return new Source()
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
             .image(DEFAULT_IMAGE)
-            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
-        source1.setCreatedBy("admin");
-        return source1;
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE)
+            .fileUrl(DEFAULT_FILE_URL)
+            .fileContent(DEFAULT_FILE_CONTENT)
+            .fileContentContentType(DEFAULT_FILE_CONTENT_CONTENT_TYPE)
+            .fileType(DEFAULT_FILE_TYPE);
     }
 
     /**
@@ -99,7 +113,11 @@ class SourceResourceIT {
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .image(UPDATED_IMAGE)
-            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .fileUrl(UPDATED_FILE_URL)
+            .fileContent(UPDATED_FILE_CONTENT)
+            .fileContentContentType(UPDATED_FILE_CONTENT_CONTENT_TYPE)
+            .fileType(UPDATED_FILE_TYPE);
     }
 
     @BeforeEach
@@ -172,7 +190,11 @@ class SourceResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))))
+            .andExpect(jsonPath("$.[*].fileUrl").value(hasItem(DEFAULT_FILE_URL)))
+            .andExpect(jsonPath("$.[*].fileContentContentType").value(hasItem(DEFAULT_FILE_CONTENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].fileContent").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_FILE_CONTENT))))
+            .andExpect(jsonPath("$.[*].fileType").value(hasItem(DEFAULT_FILE_TYPE.toString())));
     }
 
     @Test
@@ -190,7 +212,11 @@ class SourceResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.image").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE)));
+            .andExpect(jsonPath("$.image").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE)))
+            .andExpect(jsonPath("$.fileUrl").value(DEFAULT_FILE_URL))
+            .andExpect(jsonPath("$.fileContentContentType").value(DEFAULT_FILE_CONTENT_CONTENT_TYPE))
+            .andExpect(jsonPath("$.fileContent").value(Base64.getEncoder().encodeToString(DEFAULT_FILE_CONTENT)))
+            .andExpect(jsonPath("$.fileType").value(DEFAULT_FILE_TYPE.toString()));
     }
 
     @Test
@@ -313,6 +339,86 @@ class SourceResourceIT {
 
     @Test
     @Transactional
+    void getAllSourcesByFileUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileUrl equals to
+        defaultSourceFiltering("fileUrl.equals=" + DEFAULT_FILE_URL, "fileUrl.equals=" + UPDATED_FILE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileUrl in
+        defaultSourceFiltering("fileUrl.in=" + DEFAULT_FILE_URL + "," + UPDATED_FILE_URL, "fileUrl.in=" + UPDATED_FILE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileUrl is not null
+        defaultSourceFiltering("fileUrl.specified=true", "fileUrl.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileUrlContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileUrl contains
+        defaultSourceFiltering("fileUrl.contains=" + DEFAULT_FILE_URL, "fileUrl.contains=" + UPDATED_FILE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileUrlNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileUrl does not contain
+        defaultSourceFiltering("fileUrl.doesNotContain=" + UPDATED_FILE_URL, "fileUrl.doesNotContain=" + DEFAULT_FILE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileType equals to
+        defaultSourceFiltering("fileType.equals=" + DEFAULT_FILE_TYPE, "fileType.equals=" + UPDATED_FILE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileType in
+        defaultSourceFiltering("fileType.in=" + DEFAULT_FILE_TYPE + "," + UPDATED_FILE_TYPE, "fileType.in=" + UPDATED_FILE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSourcesByFileTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSource = sourceRepository.saveAndFlush(source);
+
+        // Get all the sourceList where fileType is not null
+        defaultSourceFiltering("fileType.specified=true", "fileType.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllSourcesByCategoryIsEqualToSomething() throws Exception {
         Category category;
         if (TestUtil.findAll(em, Category.class).isEmpty()) {
@@ -350,7 +456,11 @@ class SourceResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))));
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE))))
+            .andExpect(jsonPath("$.[*].fileUrl").value(hasItem(DEFAULT_FILE_URL)))
+            .andExpect(jsonPath("$.[*].fileContentContentType").value(hasItem(DEFAULT_FILE_CONTENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].fileContent").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_FILE_CONTENT))))
+            .andExpect(jsonPath("$.[*].fileType").value(hasItem(DEFAULT_FILE_TYPE.toString())));
 
         // Check, that the count call also returns 1
         restSourceMockMvc
@@ -398,7 +508,15 @@ class SourceResourceIT {
         Source updatedSource = sourceRepository.findById(source.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedSource are not directly saved in db
         em.detach(updatedSource);
-        updatedSource.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).image(UPDATED_IMAGE).imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+        updatedSource
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .fileUrl(UPDATED_FILE_URL)
+            .fileContent(UPDATED_FILE_CONTENT)
+            .fileContentContentType(UPDATED_FILE_CONTENT_CONTENT_TYPE)
+            .fileType(UPDATED_FILE_TYPE);
         SourceDTO sourceDTO = sourceMapper.toDto(updatedSource);
 
         restSourceMockMvc
@@ -484,6 +602,8 @@ class SourceResourceIT {
         Source partialUpdatedSource = new Source();
         partialUpdatedSource.setId(source.getId());
 
+        partialUpdatedSource.fileUrl(UPDATED_FILE_URL).fileType(UPDATED_FILE_TYPE);
+
         restSourceMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedSource.getId())
@@ -514,7 +634,11 @@ class SourceResourceIT {
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .image(UPDATED_IMAGE)
-            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .fileUrl(UPDATED_FILE_URL)
+            .fileContent(UPDATED_FILE_CONTENT)
+            .fileContentContentType(UPDATED_FILE_CONTENT_CONTENT_TYPE)
+            .fileType(UPDATED_FILE_TYPE);
 
         restSourceMockMvc
             .perform(

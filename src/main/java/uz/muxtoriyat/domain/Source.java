@@ -3,9 +3,10 @@ package uz.muxtoriyat.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Arrays;
 import lombok.Getter;
 import lombok.Setter;
+import uz.muxtoriyat.domain.enumeration.FileType;
 
 /**
  * A Source.
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "source")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Source extends AbstractAuditingEntity<Long> implements Serializable {
+public class Source implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,13 +39,23 @@ public class Source extends AbstractAuditingEntity<Long> implements Serializable
     @Column(name = "image_content_type")
     private String imageContentType;
 
+    @Column(name = "file_url")
+    private String fileUrl;
+
+    @Lob
+    @Column(name = "file_content")
+    private byte[] fileContent;
+
+    @Column(name = "file_content_content_type")
+    private String fileContentContentType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "file_type")
+    private FileType fileType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "parent" }, allowSetters = true)
     private Category category;
-
-    @OneToMany(mappedBy = "source")
-    @JsonIgnoreProperties(value = { "source" }, allowSetters = true)
-    private List<File> files;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -70,6 +81,26 @@ public class Source extends AbstractAuditingEntity<Long> implements Serializable
 
     public Source imageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
+        return this;
+    }
+
+    public Source fileUrl(String fileUrl) {
+        this.setFileUrl(fileUrl);
+        return this;
+    }
+
+    public Source fileContent(byte[] fileContent) {
+        this.setFileContent(fileContent);
+        return this;
+    }
+
+    public Source fileContentContentType(String fileContentContentType) {
+        this.fileContentContentType = fileContentContentType;
+        return this;
+    }
+
+    public Source fileType(FileType fileType) {
+        this.setFileType(fileType);
         return this;
     }
 
@@ -104,8 +135,12 @@ public class Source extends AbstractAuditingEntity<Long> implements Serializable
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
-            ", image='" + getImage() + "'" +
+            ", image='" + Arrays.toString(getImage()) + "'" +
             ", imageContentType='" + getImageContentType() + "'" +
+            ", fileUrl='" + getFileUrl() + "'" +
+            ", fileContent='" + Arrays.toString(getFileContent()) + "'" +
+            ", fileContentContentType='" + getFileContentContentType() + "'" +
+            ", fileType='" + getFileType() + "'" +
             "}";
     }
 }

@@ -106,7 +106,7 @@ public class MyArticleResource {
         if (userIdByLogin.isEmpty()) {
             LOG.warn("No user found by login: {}", currentUserLogin.orElseThrow());
         }
-        Optional<ArticleViewDTO> articleDTO = articleService.findOneByAuthorIdAsView(userIdByLogin.orElseThrow(), id);
+        Optional<ArticleViewDTO> articleDTO = articleService.findOneByAuthorIdAsView(id, userIdByLogin.orElseThrow());
         articleDTO.ifPresent(articleViewService::fillReactions);
         return ResponseUtil.wrapOrNotFound(articleDTO);
     }

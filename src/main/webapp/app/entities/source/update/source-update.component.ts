@@ -12,6 +12,7 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ICategory } from 'app/entities/category/category.model';
 import { CategoryService } from 'app/entities/category/service/category.service';
+import { FileType } from 'app/entities/enumerations/file-type.model';
 import { SourceService } from '../service/source.service';
 import { ISource } from '../source.model';
 import { SourceFormGroup, SourceFormService } from './source-form.service';
@@ -25,6 +26,7 @@ import { SourceFormGroup, SourceFormService } from './source-form.service';
 export class SourceUpdateComponent implements OnInit {
   isSaving = false;
   source: ISource | null = null;
+  fileTypeValues = Object.keys(FileType);
 
   categoriesSharedCollection: ICategory[] = [];
 

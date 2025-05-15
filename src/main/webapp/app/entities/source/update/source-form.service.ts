@@ -22,6 +22,10 @@ type SourceFormGroupContent = {
   description: FormControl<ISource['description']>;
   image: FormControl<ISource['image']>;
   imageContentType: FormControl<ISource['imageContentType']>;
+  fileUrl: FormControl<ISource['fileUrl']>;
+  fileContent: FormControl<ISource['fileContent']>;
+  fileContentContentType: FormControl<ISource['fileContentContentType']>;
+  fileType: FormControl<ISource['fileType']>;
   category: FormControl<ISource['category']>;
 };
 
@@ -46,6 +50,10 @@ export class SourceFormService {
       description: new FormControl(sourceRawValue.description),
       image: new FormControl(sourceRawValue.image),
       imageContentType: new FormControl(sourceRawValue.imageContentType),
+      fileUrl: new FormControl(sourceRawValue.fileUrl),
+      fileContent: new FormControl(sourceRawValue.fileContent),
+      fileContentContentType: new FormControl(sourceRawValue.fileContentContentType),
+      fileType: new FormControl(sourceRawValue.fileType),
       category: new FormControl(sourceRawValue.category),
     });
   }

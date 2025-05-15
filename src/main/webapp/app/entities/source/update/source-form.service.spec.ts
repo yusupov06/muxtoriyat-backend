@@ -23,6 +23,9 @@ describe('Source Form Service', () => {
             name: expect.any(Object),
             description: expect.any(Object),
             image: expect.any(Object),
+            fileUrl: expect.any(Object),
+            fileContent: expect.any(Object),
+            fileType: expect.any(Object),
             category: expect.any(Object),
           }),
         );
@@ -37,6 +40,9 @@ describe('Source Form Service', () => {
             name: expect.any(Object),
             description: expect.any(Object),
             image: expect.any(Object),
+            fileUrl: expect.any(Object),
+            fileContent: expect.any(Object),
+            fileType: expect.any(Object),
             category: expect.any(Object),
           }),
         );

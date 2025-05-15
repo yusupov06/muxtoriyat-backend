@@ -1,20 +1,29 @@
 import { ISource, NewSource } from './source.model';
 
 export const sampleWithRequiredData: ISource = {
-  id: 30711,
+  id: 30907,
 };
 
 export const sampleWithPartialData: ISource = {
-  id: 16369,
-  name: 'compete',
+  id: 32539,
+  name: 'huzzah',
+  description: 'hateful',
+  image: '../fake-data/blob/hipster.png',
+  imageContentType: 'unknown',
+  fileUrl: 'consequently towards consequently',
+  fileType: 'IMAGE',
 };
 
 export const sampleWithFullData: ISource = {
-  id: 669,
-  name: 'for usable',
-  description: 'happily',
+  id: 8920,
+  name: 'acidly plus',
+  description: 'sniveling coincide',
   image: '../fake-data/blob/hipster.png',
   imageContentType: 'unknown',
+  fileUrl: 'where in tut',
+  fileContent: '../fake-data/blob/hipster.png',
+  fileContentContentType: 'unknown',
+  fileType: 'IMAGE',
 };
 
 export const sampleWithNewData: NewSource = {

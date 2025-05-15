@@ -76,8 +76,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<ArticleViewDTO> findOneByAuthorIdAsView(Long authorId, Long id) {
-        return articleRepository.findByIdAndAuthor_Id(authorId, id).map(articleMapper::toViewDto);
+    public Optional<ArticleViewDTO> findOneByAuthorIdAsView(Long id, Long authorId) {
+        return articleRepository.findByIdAndAuthor_Id(id, authorId).map(articleMapper::toViewDto);
     }
 
     @Override

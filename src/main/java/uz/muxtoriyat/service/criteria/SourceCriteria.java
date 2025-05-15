@@ -3,9 +3,12 @@ package uz.muxtoriyat.service.criteria;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
 import org.springdoc.core.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
+import uz.muxtoriyat.domain.enumeration.FileType;
 
 /**
  * Criteria class for the {@link uz.muxtoriyat.domain.Source} entity. This class is used
@@ -16,9 +19,28 @@ import tech.jhipster.service.filter.*;
  * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
  * fix type specific filters.
  */
+@Setter
+@Getter
 @ParameterObject
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class SourceCriteria implements Serializable, Criteria {
+
+    /**
+     * Class for filtering FileType
+     */
+    public static class FileTypeFilter extends Filter<FileType> {
+
+        public FileTypeFilter() {}
+
+        public FileTypeFilter(FileTypeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public FileTypeFilter copy() {
+            return new FileTypeFilter(this);
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +49,10 @@ public class SourceCriteria implements Serializable, Criteria {
     private StringFilter name;
 
     private StringFilter description;
+
+    private StringFilter fileUrl;
+
+    private FileTypeFilter fileType;
 
     private LongFilter categoryId;
 
@@ -38,6 +64,8 @@ public class SourceCriteria implements Serializable, Criteria {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.name = other.optionalName().map(StringFilter::copy).orElse(null);
         this.description = other.optionalDescription().map(StringFilter::copy).orElse(null);
+        this.fileUrl = other.optionalFileUrl().map(StringFilter::copy).orElse(null);
+        this.fileType = other.optionalFileType().map(FileTypeFilter::copy).orElse(null);
         this.categoryId = other.optionalCategoryId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
@@ -45,10 +73,6 @@ public class SourceCriteria implements Serializable, Criteria {
     @Override
     public SourceCriteria copy() {
         return new SourceCriteria(this);
-    }
-
-    public LongFilter getId() {
-        return id;
     }
 
     public Optional<LongFilter> optionalId() {
@@ -62,14 +86,6 @@ public class SourceCriteria implements Serializable, Criteria {
         return id;
     }
 
-    public void setId(LongFilter id) {
-        this.id = id;
-    }
-
-    public StringFilter getName() {
-        return name;
-    }
-
     public Optional<StringFilter> optionalName() {
         return Optional.ofNullable(name);
     }
@@ -79,14 +95,6 @@ public class SourceCriteria implements Serializable, Criteria {
             setName(new StringFilter());
         }
         return name;
-    }
-
-    public void setName(StringFilter name) {
-        this.name = name;
-    }
-
-    public StringFilter getDescription() {
-        return description;
     }
 
     public Optional<StringFilter> optionalDescription() {
@@ -100,12 +108,26 @@ public class SourceCriteria implements Serializable, Criteria {
         return description;
     }
 
-    public void setDescription(StringFilter description) {
-        this.description = description;
+    public Optional<StringFilter> optionalFileUrl() {
+        return Optional.ofNullable(fileUrl);
     }
 
-    public LongFilter getCategoryId() {
-        return categoryId;
+    public StringFilter fileUrl() {
+        if (fileUrl == null) {
+            setFileUrl(new StringFilter());
+        }
+        return fileUrl;
+    }
+
+    public Optional<FileTypeFilter> optionalFileType() {
+        return Optional.ofNullable(fileType);
+    }
+
+    public FileTypeFilter fileType() {
+        if (fileType == null) {
+            setFileType(new FileTypeFilter());
+        }
+        return fileType;
     }
 
     public Optional<LongFilter> optionalCategoryId() {
@@ -119,14 +141,6 @@ public class SourceCriteria implements Serializable, Criteria {
         return categoryId;
     }
 
-    public void setCategoryId(LongFilter categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Boolean getDistinct() {
-        return distinct;
-    }
-
     public Optional<Boolean> optionalDistinct() {
         return Optional.ofNullable(distinct);
     }
@@ -136,10 +150,6 @@ public class SourceCriteria implements Serializable, Criteria {
             setDistinct(true);
         }
         return distinct;
-    }
-
-    public void setDistinct(Boolean distinct) {
-        this.distinct = distinct;
     }
 
     @Override
@@ -155,6 +165,8 @@ public class SourceCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(description, that.description) &&
+            Objects.equals(fileUrl, that.fileUrl) &&
+            Objects.equals(fileType, that.fileType) &&
             Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -162,7 +174,7 @@ public class SourceCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, categoryId, distinct);
+        return Objects.hash(id, name, description, fileUrl, fileType, categoryId, distinct);
     }
 
     // prettier-ignore
@@ -172,6 +184,8 @@ public class SourceCriteria implements Serializable, Criteria {
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalName().map(f -> "name=" + f + ", ").orElse("") +
             optionalDescription().map(f -> "description=" + f + ", ").orElse("") +
+            optionalFileUrl().map(f -> "fileUrl=" + f + ", ").orElse("") +
+            optionalFileType().map(f -> "fileType=" + f + ", ").orElse("") +
             optionalCategoryId().map(f -> "categoryId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";

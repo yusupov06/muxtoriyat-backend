@@ -77,6 +77,8 @@ class SourceCriteriaTest {
         sourceCriteria.id();
         sourceCriteria.name();
         sourceCriteria.description();
+        sourceCriteria.fileUrl();
+        sourceCriteria.fileType();
         sourceCriteria.categoryId();
         sourceCriteria.distinct();
     }
@@ -87,6 +89,8 @@ class SourceCriteriaTest {
                 condition.apply(criteria.getId()) &&
                 condition.apply(criteria.getName()) &&
                 condition.apply(criteria.getDescription()) &&
+                condition.apply(criteria.getFileUrl()) &&
+                condition.apply(criteria.getFileType()) &&
                 condition.apply(criteria.getCategoryId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
@@ -99,6 +103,8 @@ class SourceCriteriaTest {
                 condition.apply(criteria.getId(), copy.getId()) &&
                 condition.apply(criteria.getName(), copy.getName()) &&
                 condition.apply(criteria.getDescription(), copy.getDescription()) &&
+                condition.apply(criteria.getFileUrl(), copy.getFileUrl()) &&
+                condition.apply(criteria.getFileType(), copy.getFileType()) &&
                 condition.apply(criteria.getCategoryId(), copy.getCategoryId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"

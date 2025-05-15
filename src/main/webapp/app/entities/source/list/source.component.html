@@ -65,6 +65,27 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="fileUrl">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.source.fileUrl">File Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fileContent">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.source.fileContent">File Content</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fileType">
+              <div class="d-flex">
+                <span jhiTranslate="muxtoriyatApp.source.fileType">File Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="category.id">
               <div class="d-flex">
                 <span jhiTranslate="muxtoriyatApp.source.category">Category</span>
@@ -89,6 +110,11 @@
                   </a>
                   <span>{{ source.imageContentType }}, {{ byteSize(source.image) }}</span>
                 }
+              </td>
+              <td>{{ source.fileUrl }}</td>
+              <td>{{ source.fileContent }}</td>
+              <td [jhiTranslate]="'muxtoriyatApp.FileType.' + (source.fileType ?? 'null')">
+                {{ { null: '', IMAGE: 'IMAGE', VIDEO: 'VIDEO', PDF: 'PDF' }[source.fileType ?? 'null'] }}
               </td>
               <td>
                 @if (source.category) {

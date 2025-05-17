@@ -65,13 +65,13 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="content">
-              <div class="d-flex">
-                <span jhiTranslate="muxtoriyatApp.article.content">Content</span>
+            <!--            <th scope="col" jhiSortBy="content">-->
+            <!--              <div class="d-flex">-->
+            <!--                <span jhiTranslate="muxtoriyatApp.article.content">Content</span>-->
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
+            <!--                <fa-icon class="p-1" icon="sort"></fa-icon>-->
+            <!--              </div>-->
+            <!--            </th>-->
             <th scope="col" jhiSortBy="image">
               <div class="d-flex">
                 <span jhiTranslate="muxtoriyatApp.article.image">Image</span>
@@ -86,12 +86,12 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="category.id">
-              <div class="d-flex">
-                <span jhiTranslate="muxtoriyatApp.article.category">Category</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
+            <!--            <th scope="col" jhiSortBy="category.id">-->
+            <!--              <div class="d-flex">-->
+            <!--                <span jhiTranslate="muxtoriyatApp.article.category">Category</span>-->
+            <!--                <fa-icon class="p-1" icon="sort"></fa-icon>-->
+            <!--              </div>-->
+            <!--            </th>-->
             <th scope="col" jhiSortBy="author.id">
               <div class="d-flex">
                 <span jhiTranslate="muxtoriyatApp.article.author">Author</span>
@@ -110,7 +110,7 @@
               <td>{{ article.name }}</td>
               <td>{{ article.title }}</td>
               <td>{{ article.description }}</td>
-              <td>{{ article.content }}</td>
+              <!--              <td>{{ article.content }}</td>-->
               <td>
                 @if (article.image) {
                   <a (click)="openFile(article.image, article.imageContentType)">
@@ -122,15 +122,15 @@
               <td [jhiTranslate]="'muxtoriyatApp.VisibilityType.' + (article.visibility ?? 'null')">
                 {{ { null: '', BLANK: 'BLANK', PUBLIC: 'PUBLIC' }[article.visibility ?? 'null'] }}
               </td>
+              <!--              <td>-->
+              <!--                @if (article.category) {-->
+              <!--                  <div>-->
+              <!--                    <a [routerLink]="['/category', article.category.id, 'view']">{{ article.category.name }}</a>-->
+              <!--                  </div>-->
+              <!--                }-->
+              <!--              </td>-->
               <td>
-                @if (article.category) {
-                  <div>
-                    <a [routerLink]="['/category', article.category.id, 'view']">{{ article.category.id }}</a>
-                  </div>
-                }
-              </td>
-              <td>
-                {{ article.author?.id }}
+                {{ article.author?.login }}
               </td>
               <td class="text-end">
                 <div class="btn-group">

@@ -45,11 +45,6 @@
           />
         </div>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_content" jhiTranslate="muxtoriyatApp.article.content">Content</label>
-          <textarea class="form-control" name="content" id="field_content" data-cy="content" formControlName="content"></textarea>
-        </div>
-
         @let imageRef = editForm.get('image')!;
         <div class="mb-3">
           <label class="form-label" for="field_image" jhiTranslate="muxtoriyatApp.article.image">Image</label>
@@ -134,6 +129,12 @@
               <option [ngValue]="userOption">{{ userOption.login }}</option>
             }
           </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_content" jhiTranslate="muxtoriyatApp.article.content">Content</label>
+          <!--          <textarea class="form-control" name="content" id="field_content" data-cy="content" formControlName="content"></textarea>-->
+          <div [innerHTML]="editForm.get('content')?.value"></div>
         </div>
       </div>
 

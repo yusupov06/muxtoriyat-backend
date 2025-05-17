@@ -79,7 +79,6 @@ export class ArticleComponent implements OnInit {
   delete(article: IArticle): void {
     const modalRef = this.modalService.open(ArticleDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.article = article;
-    // unsubscribe not needed because closed completes on modal close
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),

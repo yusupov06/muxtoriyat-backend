@@ -31,7 +31,7 @@
           <dd>
             @if (category()!.parent) {
               <div>
-                <a [routerLink]="['/category', category()!.parent?.id, 'view']">{{ categoryRef.parent?.id }}</a>
+                <a [routerLink]="['/category', category()!.parent?.id, 'view']">{{ categoryRef.parent?.name }}</a>
               </div>
             }
           </dd>

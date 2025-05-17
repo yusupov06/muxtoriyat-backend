@@ -56,13 +56,13 @@
           <dd>
             @if (article()!.category) {
               <div>
-                <a [routerLink]="['/category', article()!.category?.id, 'view']">{{ articleRef.category?.id }}</a>
+                <a [routerLink]="['/category', article()!.category?.id, 'view']">{{ articleRef.category?.name }}</a>
               </div>
             }
           </dd>
           <dt><span jhiTranslate="muxtoriyatApp.article.author">Author</span></dt>
           <dd>
-            <span>{{ articleRef.author?.id }}</span>
+            <span>{{ articleRef.author?.login }}</span>
           </dd>
         </dl>
 

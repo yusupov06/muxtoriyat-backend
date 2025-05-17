@@ -11,8 +11,8 @@ export interface IArticle {
   image?: string | null;
   imageContentType?: string | null;
   visibility?: keyof typeof VisibilityType | null;
-  category?: Pick<ICategory, 'id'> | null;
-  author?: Pick<IUser, 'id'> | null;
+  category?: Pick<ICategory, 'id' | 'name'> | null;
+  author?: Pick<IUser, 'id' | 'login'> | null;
 }
 
 export type NewArticle = Omit<IArticle, 'id'> & { id: null };

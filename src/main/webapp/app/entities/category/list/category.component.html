@@ -65,12 +65,12 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="parent.id">
-              <div class="d-flex">
-                <span jhiTranslate="muxtoriyatApp.category.parent">Parent</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
+            <!--            <th scope="col" jhiSortBy="parent.id">-->
+            <!--              <div class="d-flex">-->
+            <!--                <span jhiTranslate="muxtoriyatApp.category.parent">Parent</span>-->
+            <!--                <fa-icon class="p-1" icon="sort"></fa-icon>-->
+            <!--              </div>-->
+            <!--            </th>-->
             <th scope="col"></th>
           </tr>
         </thead>
@@ -83,13 +83,13 @@
               <td>{{ category.name }}</td>
               <td>{{ category.description }}</td>
               <td>{{ category.order }}</td>
-              <td>
-                @if (category.parent) {
-                  <div>
-                    <a [routerLink]="['/category', category.parent.id, 'view']">{{ category.parent.id }}</a>
-                  </div>
-                }
-              </td>
+              <!--              <td>-->
+              <!--                @if (category.parent) {-->
+              <!--                  <div>-->
+              <!--                    <a [routerLink]="['/category', category.parent.id, 'view']">{{ category.parent.name }}</a>-->
+              <!--                  </div>-->
+              <!--                }-->
+              <!--              </td>-->
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/category', category.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

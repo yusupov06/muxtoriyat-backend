@@ -101,7 +101,7 @@
           >
             <option [ngValue]="null"></option>
             @for (sourceOption of sourcesSharedCollection; track $index) {
-              <option [ngValue]="sourceOption">{{ sourceOption.id }}</option>
+              <option [ngValue]="sourceOption">{{ sourceOption.name }}</option>
             }
           </select>
         </div>

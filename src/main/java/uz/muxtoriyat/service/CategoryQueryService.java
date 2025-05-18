@@ -99,6 +99,11 @@ public class CategoryQueryService extends QueryService<Category> {
                     buildSpecification(criteria.getParentId(), root -> root.join(Category_.parent, JoinType.LEFT).get(Category_.id))
                 );
             }
+            if (criteria.getParentName() != null) {
+                specification = specification.and(
+                    buildSpecification(criteria.getParentName(), root -> root.join(Category_.parent, JoinType.LEFT).get(Category_.name))
+                );
+            }
         }
         return specification;
     }

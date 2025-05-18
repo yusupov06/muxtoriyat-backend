@@ -25,10 +25,8 @@ public class ArticleAddDTO implements Serializable {
 
     private String description;
 
-    @Lob
     private String content;
 
-    @Lob
     private byte[] image;
 
     private String imageContentType;

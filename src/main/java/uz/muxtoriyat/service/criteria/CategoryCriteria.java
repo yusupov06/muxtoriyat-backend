@@ -32,6 +32,8 @@ public class CategoryCriteria implements Serializable, Criteria {
 
     private LongFilter parentId;
 
+    private StringFilter parentName;
+
     private Boolean distinct;
 
     public CategoryCriteria() {}
@@ -42,6 +44,7 @@ public class CategoryCriteria implements Serializable, Criteria {
         this.description = other.optionalDescription().map(StringFilter::copy).orElse(null);
         this.order = other.optionalOrder().map(IntegerFilter::copy).orElse(null);
         this.parentId = other.optionalParentId().map(LongFilter::copy).orElse(null);
+        this.parentName = other.optionalParentName().map(StringFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -139,6 +142,25 @@ public class CategoryCriteria implements Serializable, Criteria {
             setParentId(new LongFilter());
         }
         return parentId;
+    }
+
+    public StringFilter getParentName() {
+        return parentName;
+    }
+
+    public Optional<StringFilter> optionalParentName() {
+        return Optional.ofNullable(parentName);
+    }
+
+    public StringFilter parentName() {
+        if (parentName == null) {
+            setParentName(new StringFilter());
+        }
+        return parentName;
+    }
+
+    public void setParentName(StringFilter parentName) {
+        this.parentName = parentName;
     }
 
     public void setParentId(LongFilter parentId) {

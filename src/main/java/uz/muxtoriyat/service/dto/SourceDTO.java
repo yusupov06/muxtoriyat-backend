@@ -13,7 +13,7 @@ import uz.muxtoriyat.domain.enumeration.FileType;
 @Setter
 @Getter
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class SourceDTO implements Serializable {
+public class SourceDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

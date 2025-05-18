@@ -49,10 +49,10 @@
   <changeSet id="20250430053338-audit-1" author="yusupovlab">
     <addColumn tableName="source">
       <column name="created_by" type="varchar(50)">
-        <constraints nullable="false"/>
+        <constraints nullable="true"/>
       </column>
       <column name="created_date" type="timestamp" defaultValueDate="${now}">
-        <constraints nullable="false"/>
+        <constraints nullable="true"/>
       </column>
       <column name="last_modified_by" type="varchar(50)"/>
       <column name="last_modified_date" type="timestamp"/>

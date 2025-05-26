@@ -1,5 +1,6 @@
 package uz.muxtoriyat.service.dto.view;
 
+import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -7,9 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.ReadOnlyProperty;
-import uz.muxtoriyat.service.dto.AbstractAuditingDTO;
-import uz.muxtoriyat.service.dto.CategoryDTO;
-import uz.muxtoriyat.service.dto.FileDTO;
 
 /**
  * A DTO for the {@link uz.muxtoriyat.domain.Source} entity.
@@ -25,6 +23,11 @@ public class SourceViewDTO implements Serializable {
     private String name;
 
     private String description;
+
+    @Lob
+    private byte[] image;
+
+    private String imageContentType;
 
     private FileViewDTO file;
 

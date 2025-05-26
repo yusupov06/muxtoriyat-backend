@@ -1,4 +1,4 @@
-package uz.muxtoriyat.web.rest;
+package uz.muxtoriyat.web.rest.client.view;
 
 import java.util.List;
 import java.util.Optional;

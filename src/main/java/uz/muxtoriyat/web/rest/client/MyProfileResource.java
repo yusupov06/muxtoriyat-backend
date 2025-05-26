@@ -1,6 +1,5 @@
-package uz.muxtoriyat.web.rest;
+package uz.muxtoriyat.web.rest.client;
 
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

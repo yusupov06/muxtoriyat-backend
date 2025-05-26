@@ -1,4 +1,4 @@
-package uz.muxtoriyat.web.rest;
+package uz.muxtoriyat.web.rest.client;
 
 import jakarta.validation.Valid;
 import java.util.List;

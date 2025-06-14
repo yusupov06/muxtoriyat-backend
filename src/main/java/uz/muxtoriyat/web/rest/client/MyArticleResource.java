@@ -30,8 +30,6 @@ public class MyArticleResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(MyArticleResource.class);
 
-    private final ArticleService articleService;
-
     private final MyArticleService myArticleService;
 
     private final ArticleViewService articleViewService;
@@ -106,7 +104,7 @@ public class MyArticleResource {
         if (userIdByLogin.isEmpty()) {
             LOG.warn("No user found by login: {}", currentUserLogin.orElseThrow());
         }
-        Optional<ArticleViewDTO> articleDTO = articleService.findOneByAuthorIdAsView(id, userIdByLogin.orElseThrow());
+        Optional<ArticleViewDTO> articleDTO = articleViewService.findOneByAuthorIdAsView(id, userIdByLogin.orElseThrow());
         articleDTO.ifPresent(articleViewService::fillReactions);
         return ResponseUtil.wrapOrNotFound(articleDTO);
     }

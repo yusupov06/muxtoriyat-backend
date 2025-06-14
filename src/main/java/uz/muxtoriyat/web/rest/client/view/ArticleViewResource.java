@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 import uz.muxtoriyat.service.ArticleQueryService;
-import uz.muxtoriyat.service.ArticleService;
 import uz.muxtoriyat.service.ArticleViewService;
 import uz.muxtoriyat.service.criteria.ArticleCriteria;
 import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
@@ -29,8 +28,6 @@ import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
 public class ArticleViewResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArticleViewResource.class);
-
-    private final ArticleService articleService;
 
     private final ArticleViewService articleViewService;
 
@@ -44,12 +41,8 @@ public class ArticleViewResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<ArticleBasicViewDTO>> getAllArticles(
-        ArticleCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
-    ) {
+    public ResponseEntity<List<ArticleBasicViewDTO>> getAllArticles(ArticleCriteria criteria, Pageable pageable) {
         LOG.debug("REST request to get Articles by criteria: {}", criteria);
-
         Page<ArticleBasicViewDTO> page = articleQueryService.findByCriteriaAsBasicView(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         List<ArticleBasicViewDTO> content = page.getContent();
@@ -78,7 +71,7 @@ public class ArticleViewResource {
     @GetMapping("/{id}")
     public ResponseEntity<ArticleViewDTO> getArticle(@PathVariable("id") Long id) {
         LOG.debug("REST request to get Article : {}", id);
-        Optional<ArticleViewDTO> articleDTO = articleService.findOneAsView(id);
+        Optional<ArticleViewDTO> articleDTO = articleViewService.findOneAsView(id);
         articleDTO.ifPresent(articleViewService::fillReactions);
         return ResponseUtil.wrapOrNotFound(articleDTO);
     }

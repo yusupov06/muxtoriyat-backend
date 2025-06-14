@@ -2,19 +2,34 @@ package uz.muxtoriyat.service.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.muxtoriyat.domain.enumeration.ReactionType;
+import uz.muxtoriyat.repository.ArticleRepository;
 import uz.muxtoriyat.service.ArticleViewService;
 import uz.muxtoriyat.service.ReactionCounterService;
 import uz.muxtoriyat.service.dto.view.ArticleBasicViewDTO;
 import uz.muxtoriyat.service.dto.view.ArticleViewDTO;
+import uz.muxtoriyat.service.mapper.ArticleMapper;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleViewServiceImpl implements ArticleViewService {
 
+    private final ArticleMapper articleMapper;
+    private final ArticleRepository articleRepository;
     private final ReactionCounterService reactionCounterService;
+
+    @Override
+    public Optional<ArticleViewDTO> findOneAsView(Long id) {
+        return articleRepository.findById(id).map(articleMapper::toViewDto);
+    }
+
+    @Override
+    public Optional<ArticleViewDTO> findOneByAuthorIdAsView(Long id, Long authorId) {
+        return articleRepository.findByIdAndAuthor_Id(id, authorId).map(articleMapper::toViewDto);
+    }
 
     @Override
     public List<ArticleViewDTO> fillReactions(List<ArticleViewDTO> articleViews) {

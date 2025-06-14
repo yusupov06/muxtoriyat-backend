@@ -40,10 +40,6 @@ public interface ArticleService {
      */
     Optional<ArticleDTO> findOne(Long id);
 
-    Optional<ArticleViewDTO> findOneAsView(Long id);
-
-    Optional<ArticleViewDTO> findOneByAuthorIdAsView(Long authorId, Long id);
-
     /**
      * Delete the "id" article.
      *
